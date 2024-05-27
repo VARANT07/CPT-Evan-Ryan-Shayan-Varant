@@ -65,7 +65,7 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 
     return updated_cars
 
-def score(score): #score board 
+def score(score: int): #score board 
     myfont = pygame.font.SysFont("monospace", 40)
     scoretext = myfont.render("Score : "+str(score), 1, (0,0,0))
     screen.blit(scoretext, (5, 10))
@@ -82,11 +82,12 @@ pygame.display.set_caption("Frogger")
 fps = 60
 
 # ---------------------------
-# play button assets 
+# Play Button A 
 button_image = pygame.image.load("play_button.png") #loading play button asset
 button_rect = button_image.get_rect(center=(320, 250))
 button_image = pygame.transform.scale(button_image, (300, 100)) #size of play button
 button_rect = button_image.get_rect(center=(320, 130)) #location of play button 
+
 # ----------------------------
 # Initialize global variables
 
@@ -104,6 +105,8 @@ car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
 
 fly_spawn_intervals = 3
 frames_per_fly_spawn = fps * spawn_interval_seconds
+
+starting_score = 0
 
 # ---------------------------
 # Loading graphics
@@ -161,6 +164,7 @@ while running:
     cars = update_car(cars)
 
     draw_car(cars)
+    score(starting_score)
 
     pygame.display.flip()
     clock.tick(fps)
