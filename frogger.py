@@ -79,6 +79,7 @@ SIZE = (WIDTH, HEIGHT)
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 pygame.display.set_caption("Frogger")
+fps = 60
 
 # ---------------------------
 # play button assets 
@@ -86,7 +87,7 @@ button_image = pygame.image.load("play_button.png") #loading play button asset
 button_rect = button_image.get_rect(center=(320, 250))
 button_image = pygame.transform.scale(button_image, (300, 100)) #size of play button
 button_rect = button_image.get_rect(center=(320, 130)) #location of play button 
-
+# ----------------------------
 # Initialize global variables
 
 frog_x_size = 50
@@ -100,6 +101,9 @@ car_pos = [650, 600, 550, 500, 450]  # Y coordinates the cars can spawn in
 cars = []
 car_spawn_timer = 0
 car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
+
+fly_spawn_intervals = 3
+frames_per_fly_spawn = fps * spawn_interval_seconds
 
 # ---------------------------
 # Loading graphics
@@ -159,7 +163,7 @@ while running:
     draw_car(cars)
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(fps)
     # ------------------------------------
     
 
