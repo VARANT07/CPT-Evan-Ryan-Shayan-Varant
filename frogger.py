@@ -79,7 +79,12 @@ SIZE = (WIDTH, HEIGHT)
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 pygame.display.set_caption("Frogger")
-
+# ----------------------------
+# Play Button variables 
+button_image = pygame.image.load("play_button.png") #loading play button asset
+button_rect = button_image.get_rect(center=(320, 250))
+button_image = pygame.transform.scale(button_image, (300, 100)) #size of play button
+button_rect = button_image.get_rect(center=(320, 130)) #location of play button 
 # ---------------------------
 # Initialize global variables
 
