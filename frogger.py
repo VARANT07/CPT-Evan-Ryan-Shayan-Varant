@@ -65,7 +65,11 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 
     return updated_cars
 
-
+def score(score): #score board 
+    myfont = pygame.font.SysFont("monospace", 40)
+    scoretext = myfont.render("Score : "+str(score), 1, (0,0,0))
+    screen.blit(scoretext, (5, 10))
+    
 pygame.init()
 
 WIDTH = 800
