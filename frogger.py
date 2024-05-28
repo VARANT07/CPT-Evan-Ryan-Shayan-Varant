@@ -64,17 +64,36 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
             updated_cars.append((x_pos, y_pos, speed, car_direction))
 
     return updated_cars
+# ----------------------------------------------------- Fly generation and display
+
+
+def generate_fly_pos():
+    fly_WIDTH = random.randint(0, WIDTH - 1)
+    fly_HEIGHT = random.randint(0, HEIGHT - 1)
+    return (fly_WIDTH, fly_HEIGHT)
+
+
+def draw_fly (position):
+    x, y = position
+    # DRAW FLY
+    # pygame.draw.circle(screen, (240, 240, 240), (x, y), 30)
+
+
 # -------------------------------------------------------------------------- Display of the score and the Timer
+
+
 def score(score: int): #score board Display
     myfont = pygame.font.SysFont("monospace", 40)
     scoretext = myfont.render("Score : "+str(score), 1, (0,0,0))
     screen.blit(scoretext, (5, 10))
-#-----------------------------------------------------------------------------
+
+
 def countdown(timer): #Timer Display
     myfont2 = pygame.font.SysFont("monospace", 40)
     scoretext = myfont2.render("Timer : "+str(timer), 1, (0,0,0))
     screen.blit(scoretext, (750, 10))
-    
+
+
 pygame.init()
 
 WIDTH = 800
@@ -114,7 +133,7 @@ cars = []
 car_spawn_timer = 0
 car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
 
-fly_spawn_intervals = 3
+fly_spawn_intervals = 5
 frames_per_fly_spawn = fps * spawn_interval_seconds
 
 starting_score = 0
