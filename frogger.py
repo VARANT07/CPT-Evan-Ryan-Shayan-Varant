@@ -64,11 +64,16 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
             updated_cars.append((x_pos, y_pos, speed, car_direction))
 
     return updated_cars
-
-def score(score: int): #score board 
+# -------------------------------------------------------------------------- Display of the score and the Timer
+def score(score: int): #score board Display
     myfont = pygame.font.SysFont("monospace", 40)
     scoretext = myfont.render("Score : "+str(score), 1, (0,0,0))
     screen.blit(scoretext, (5, 10))
+#-----------------------------------------------------------------------------
+def countdown(timer): #Timer Display
+    myfont2 = pygame.font.SysFont("monospace", 40)
+    scoretext = myfont2.render("Timer : "+str(timer), 1, (0,0,0))
+    screen.blit(scoretext, (750, 10))
     
 pygame.init()
 
@@ -80,6 +85,7 @@ screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 pygame.display.set_caption("Frogger")
 fps = 60
+timer =  90
 
 # ---------------------------
 # Play Button assets
