@@ -37,7 +37,7 @@ def generate_car() -> tuple:  # Generates a random car
 
 def draw_car(car: list):  # Draws the cars on screen
     for i in car:
-        x_pos, y_pos, speed, car_direction = i
+        x_pos, y_pos, _, _ = car_info
         # ASSIGNING EACH Y POSITION ITS OWN CAR TYPE
         if y_pos == 650:
             screen.blit(car_1_img_trans, (x_pos, y_pos))
@@ -55,7 +55,7 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
     updated_cars = []
 
     for i in car:
-        x_pos, y_pos, speed, car_direction = i
+        x_pos, y_pos, speed, car_direction = car_info
         if car_direction == 0:  # If car is coming in from the left, move it to the right
             x_pos -= speed
         if car_direction == 1:  # If car is coming in from the right, move it to the left
