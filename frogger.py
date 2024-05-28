@@ -82,12 +82,17 @@ pygame.display.set_caption("Frogger")
 fps = 60
 
 # ---------------------------
-# Play Button A 
+# Play Button assets
 button_image = pygame.image.load("play_button.png") #loading play button asset
 button_rect = button_image.get_rect(center=(320, 250))
 button_image = pygame.transform.scale(button_image, (300, 100)) #size of play button
 button_rect = button_image.get_rect(center=(320, 130)) #location of play button 
-
+# ------------------------
+# options button assets 
+options_button = pygame.image.load("Options_button_pixleart.jpeg")# loading options button settings
+options_button_rect = options_button.get_rect(center=(100,100))
+options_button = pygame.transform.scale(options_button, (50, 50))# size of button
+options_button_rect = options_button.get_rect(center=(600, 450))  # Set location of options button
 # ----------------------------
 # Initialize global variables
 
