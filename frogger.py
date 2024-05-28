@@ -70,9 +70,9 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 
 
 def generate_fly_pos():
-    fly_WIDTH = random.randint(0, WIDTH - 1)
-    fly_HEIGHT = random.randint(0, HEIGHT - 1)
-    return (fly_WIDTH, fly_HEIGHT)
+    fly_width = random.randint(0, WIDTH - 1)
+    fly_height = random.randint(0, HEIGHT - 1)
+    return fly_width, fly_height
 
 
 def draw_fly (position):
@@ -84,16 +84,16 @@ def draw_fly (position):
 # -------------------- Display of the score and the Timer ------------ 
 
 
-def score(score: int): #score board Display
-    myfont = pygame.font.SysFont("monospace", 40)
-    scoretext = myfont.render("Score : "+str(score), 1, (0,0,0))
-    screen.blit(scoretext, (5, 10))
+def score(scr: int): #score board Display
+    my_font = pygame.font.SysFont("monospace", 40)
+    score_text = my_font.render("Score : "+str(scr), 1, (0,0,0))
+    screen.blit(score_text, (5, 10))
 
 
 def countdown(timer): #Timer Display
-    myfont2 = pygame.font.SysFont("monospace", 40)
-    scoretext = myfont2.render("Timer : "+str(timer), 1, (0,0,0))
-    screen.blit(scoretext, (750, 10))
+    my_font_2 = pygame.font.SysFont("monospace", 40)
+    score_text = my_font_2.render("Timer : "+str(timer), 1, (0,0,0))
+    screen.blit(score_text, (750, 10))
 
 
 pygame.init()
@@ -110,14 +110,14 @@ timer =  90
 
 # ---------------------------
 # Play Button assets
-button_image = pygame.image.load("play_button.png") #loading play button asset
+button_image = pygame.image.load("Graphics/Home_screen/play_button.png") #loading play button asset
 button_rect = button_image.get_rect(center=(320, 250))
 
 button_image = pygame.transform.scale(button_image, (300, 100)) #size of play button
 button_rect = button_image.get_rect(center=(320, 130)) #location of play button 
 # ------------------------
 # options button assets 
-options_button = pygame.image.load("Options_button_pixleart.jpeg")# loading options button settings
+options_button = pygame.image.load("Graphics/Home_screen/Options_button_pixleart.jpeg")# loading options button settings
 options_button_rect = options_button.get_rect(center=(100,100))
 
 options_button = pygame.transform.scale(options_button, (50, 50))# size of button
@@ -144,22 +144,22 @@ starting_score = 0
 
 # ---------------------------
 # Loading Game Asset
-frog_char_img = pygame.image.load('Graphics/Frog_char.png')
+frog_char_img = pygame.image.load('Graphics/Game assets/Frog_char.png')
 frog_char_img_trans = pygame.transform.scale(frog_char_img, (frog_x_size, frog_y_size))
 
-car_1_img = pygame.image.load('Graphics/car_1.png')
+car_1_img = pygame.image.load('Graphics/Cars/car_1.png')
 car_1_img_trans = pygame.transform.scale(car_1_img, (frog_x_size, frog_y_size))
 
-car_2_img = pygame.image.load('Graphics/car_2.png')
+car_2_img = pygame.image.load('Graphics/Cars/car_2.png')
 car_2_img_trans = pygame.transform.scale(car_2_img, (frog_x_size, frog_y_size))
 
-car_3_img = pygame.image.load('Graphics/car_3.png')
+car_3_img = pygame.image.load('Graphics/Cars/car_3.png')
 car_3_img_trans = pygame.transform.scale(car_3_img, (frog_x_size, frog_y_size))
 
-car_4_img = pygame.image.load('Graphics/car_4.png')
+car_4_img = pygame.image.load('Graphics/Cars/car_4.png')
 car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
 
-car_5_img = pygame.image.load('Graphics/car_5.png')
+car_5_img = pygame.image.load('Graphics/Cars/car_5.png')
 car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
 
 # ---------------------------
