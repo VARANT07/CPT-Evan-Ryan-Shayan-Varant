@@ -144,7 +144,7 @@ starting_score = 0
 
 # ---------------------------
 # Loading Game Asset
-frog_char_img = pygame.image.load('Graphics/Game assets/Frog_char.png')
+frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
 frog_char_img_trans = pygame.transform.scale(frog_char_img, (frog_x_size, frog_y_size))
 
 car_1_img = pygame.image.load('Graphics/Cars/car_1.png')
