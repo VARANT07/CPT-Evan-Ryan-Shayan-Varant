@@ -2,7 +2,7 @@
 import pygame
 import random
 
-# Functions
+# -------------------- Car and Frog Generation and Display -------
 
 
 def draw_frog(x: int, y: int):
@@ -64,7 +64,9 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
             updated_cars.append((x_pos, y_pos, speed, car_direction))
 
     return updated_cars
-# ----------------------------------------------------- Fly generation and display
+
+
+# -------------------- Fly generation and display -------------------- 
 
 
 def generate_fly_pos():
@@ -79,7 +81,7 @@ def draw_fly (position):
     # pygame.draw.circle(screen, (240, 240, 240), (x, y), 30)
 
 
-# -------------------------------------------------------------------------- Display of the score and the Timer
+# -------------------- Display of the score and the Timer ------------ 
 
 
 def score(score: int): #score board Display
@@ -110,12 +112,14 @@ timer =  90
 # Play Button assets
 button_image = pygame.image.load("play_button.png") #loading play button asset
 button_rect = button_image.get_rect(center=(320, 250))
+
 button_image = pygame.transform.scale(button_image, (300, 100)) #size of play button
 button_rect = button_image.get_rect(center=(320, 130)) #location of play button 
 # ------------------------
 # options button assets 
 options_button = pygame.image.load("Options_button_pixleart.jpeg")# loading options button settings
 options_button_rect = options_button.get_rect(center=(100,100))
+
 options_button = pygame.transform.scale(options_button, (50, 50))# size of button
 options_button_rect = options_button.get_rect(center=(600, 450))  # Set location of options button
 # ----------------------------
@@ -139,7 +143,7 @@ frames_per_fly_spawn = fps * spawn_interval_seconds
 starting_score = 0
 
 # ---------------------------
-# Loading graphics
+# Loading Game Asset
 frog_char_img = pygame.image.load('Graphics/Frog_char.png')
 frog_char_img_trans = pygame.transform.scale(frog_char_img, (frog_x_size, frog_y_size))
 
