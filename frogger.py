@@ -123,6 +123,11 @@ options_button_rect = options_button.get_rect(center=(100,100))
 
 options_button = pygame.transform.scale(options_button, (50, 50))# size of button
 options_button_rect = options_button.get_rect(center=(600, 450))  # Set location of options button
+#-----------------------------------
+# Main menu text
+menu_text = mytextfont.render("FROGGER", True, (255,255,255))
+text_rect = menu_text.get_rect(center=(320,50))#location of main menu
+
 # ----------------------------
 # Initialize global variables
 
@@ -163,6 +168,7 @@ car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
 car_5_img = pygame.image.load('Graphics/Cars/car_5.png')
 car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
 
+Current_screen = "main menu" # initial screen 
 # ---------------------------
 # Game Loop
 running = True
@@ -181,6 +187,13 @@ while running:
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
             if event.key == pygame.K_RIGHT or event.key == ord("d"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+            if event.type == pygame.MOUSEBUTTONDOWN:
+             if button_rect.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen= "game"
+             if options_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "options"
+
+     
                     
     # DRAWING
     screen.fill((255, 255, 255))
