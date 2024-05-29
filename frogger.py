@@ -93,7 +93,7 @@ def score(scr: int): #score board Display
 def countdown(timer): #Timer Display
     my_font_2 = pygame.font.SysFont("monospace", 40)
     score_text = my_font_2.render("Timer : "+str(timer), 1, (0,0,0))
-    screen.blit(score_text, (750, 10))
+    screen.blit(score_text, (WIDTH - 250, 10))
 
 
 pygame.init()
@@ -199,11 +199,13 @@ while running:
     cars = update_car(cars)
 
     draw_car(cars)
+    
     # SCORE
     score(starting_score)
     fps_counter += 1
     if fps_counter % fps == 0:
         timer -= 1
+    countdown(timer)
 
     pygame.display.flip()
     clock.tick(fps)
