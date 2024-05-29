@@ -182,9 +182,6 @@ while running:
             if event.key == pygame.K_RIGHT or event.key == ord("d"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
                     
-        fps_counter += 1
-        if fps_counter % fps == 0:
-            timer -= 1
     # DRAWING
     screen.fill((255, 255, 255))
     draw_frog(frog_starting_x, frog_starting_y)
@@ -202,7 +199,11 @@ while running:
     cars = update_car(cars)
 
     draw_car(cars)
+    # SCORE
     score(starting_score)
+    fps_counter += 1
+    if fps_counter % fps == 0:
+        timer -= 1
 
     pygame.display.flip()
     clock.tick(fps)
