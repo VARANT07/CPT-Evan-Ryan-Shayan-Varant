@@ -180,7 +180,10 @@ while running:
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
             if event.key == pygame.K_RIGHT or event.key == ord("d"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
-                
+                    
+        fps_counter += 1
+        if fps_counter % fps == 0:
+            timer -= 1
     # DRAWING
     screen.fill((255, 255, 255))
     draw_frog(frog_starting_x, frog_starting_y)
