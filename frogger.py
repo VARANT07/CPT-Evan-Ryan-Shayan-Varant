@@ -2,7 +2,7 @@
 import pygame
 import random
 
-# -------------------- Car and Frog Generation and Display -------
+# -------------------- Car and Frog Generation and Display ---------
 
 
 def draw_frog(x: int, y: int):
@@ -66,7 +66,7 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
     return updated_cars
 
 
-# -------------------- Fly generation and display -------------------- 
+# -------------------- Fly generation and display -------------------- --
 
 
 def generate_fly_pos():
