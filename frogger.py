@@ -99,6 +99,21 @@ def draw_fly (position):
     x, y = position
     # DRAW FLY
     # pygame.draw.circle(screen, (240, 240, 240), (x, y), 30)
+def erase_fly(position):
+    x, y, lifespan = position
+    pygame.draw.circle(screen, (0, 0, 0), (x, y), 30)
+
+def fly_existing(flies_list: list):
+    update_flies = []
+
+    for fly in flies_list:
+        fly_WIDTH, fly_HEIGHT, lifespan = fly
+        lifespan -= 1
+        if lifespan > 0:
+            update_flies.append((fly_WIDTH, fly_HEIGHT, lifespan))
+        else:
+            erase_fly(fly)
+    return update_flies
 
 
 # -------------------- Display of the score and the Timer ------------ 
