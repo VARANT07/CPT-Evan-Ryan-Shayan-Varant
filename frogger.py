@@ -2,6 +2,26 @@
 import pygame
 import random
 
+
+# ------------------ Screen Functions -----------------
+def main_menu(): 
+    pygame.display.set_caption("Menu")
+    screen.fill(BG) # colour of screen
+    screen.blit(button_image, button_rect)
+    screen.blit(menu_text, text_rect)
+    screen.blit(options_button, options_button_rect)
+
+def game_screen(): 
+    screen.fill((0, 100, 0)) # colour of screen
+
+def options_menu():
+    screen.fill((BG)) # colour of screen
+    screen.blit(volume_text, volume_loc)
+    screen.blit(back_button, back_button_loc)
+    screen.blit(label_text, label_rect)
+    screen.blit(on_button, on_button_loc)
+    screen.blit(off_button, off_button_loc)
+
 # -------------------- Car and Frog Generation and Display ---------
 
 
@@ -187,27 +207,7 @@ while running:
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
             if event.key == pygame.K_RIGHT or event.key == ord("d"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
-        # Screen Functions
-        def main_menu(): 
-         pygame.display.set_caption("Menu")
-         screen.fill(BG) # colour of screen
-         screen.blit(button_image, button_rect)
-         screen.blit(menu_text, text_rect)
-         screen.blit(options_button, options_button_rect)
-
-        def game_screen(): 
-         screen.fill((0, 100, 0)) # colour of screen
-
-        def options_menu():
-         screen.fill((BG)) # colour of screen
-         screen.blit(volume_text, volume_loc)
-         screen.blit(back_button, back_button_loc)
-         screen.blit(label_text, label_rect)
-         screen.blit(on_button, on_button_loc)
-         screen.blit(off_button, off_button_loc)
-          
-
-     
+              
                     
     # DRAWING
     screen.fill((255, 255, 255))
