@@ -187,7 +187,7 @@ while running:
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
             if event.key == pygame.K_RIGHT or event.key == ord("d"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
-        
+        # Screen Functions
         def main_menu(): 
          pygame.display.set_caption("Menu")
          screen.fill(BG) # colour of screen
