@@ -244,7 +244,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN:
             # HANDLING THE FROG MOVEMENTS
             if event.key == pygame.K_UP or event.key == ord("w"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
@@ -254,6 +254,10 @@ while running:
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
             if event.key == pygame.K_RIGHT or event.key == ord("d"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_location = pygame.mouse.get_pos()
+            if button_rect.collidepoint(mouse_location):
+                current_screen = "game_screen"
 
 
     # DRAWING
