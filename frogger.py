@@ -36,6 +36,8 @@ def game_screen():
     fps_counter += 1
     if fps_counter % fps == 0:
         timer -= 1
+    if timer < 0:
+        screen.fill(0,0,0)
     countdown(timer)
 
 
