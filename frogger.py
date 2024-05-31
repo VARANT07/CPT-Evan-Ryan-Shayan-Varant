@@ -192,6 +192,7 @@ options_button_rect = options_button.get_rect(center=(600, 450))  # Set location
 # Main menu text
 menu_text = mytextfont.render("FROGGER", True, (255, 255, 255))
 text_rect = menu_text.get_rect(center=(320, 50))  # location of main menu
+# ------------------------------------
 #Back button assets
 back_button = pygame.image.load("back-button2 (1).png") # back button loading asset
 back_button_loc= back_button.get_rect(center=(100,100))
