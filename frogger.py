@@ -301,6 +301,17 @@ while running:
             if button_rect.collidepoint(mouse_location):
                 current_screen = "game_screen"
 
+        if frame_counter % frames_per_fly_spawn == 0:
+        fly_position = generate_fly_pos()
+        fly_counter += 1
+        flies.append(fly_position)
+
+        for fly in flies:
+        draw_fly(fly)
+    
+        flies = fly_existing(flies)
+
+
 
     # DRAWING
 
