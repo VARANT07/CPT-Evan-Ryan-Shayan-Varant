@@ -37,13 +37,13 @@ def game_screen():
     if fps_counter % fps == 0:
         timer -= 1
     if timer < 0:
-        screen.fill(0,0,0)
+        screen.fill((0, 0, 0))
     countdown(timer)
 
 
 
 def options_menu():
-    screen.fill((BG))  # colour of screen
+    screen.fill(BG)  # colour of screen
     screen.blit(volume_text, volume_loc)
     screen.blit(back_button, back_button_loc)
     screen.blit(label_text, label_rect)
@@ -175,7 +175,6 @@ pygame.display.set_caption("Frogger")
 fps = 60
 timer = 90
 fps_counter = 0
-BG = (20,30,50)
 
 # ---------------------------
 # Play Button assets
@@ -255,7 +254,7 @@ frames_per_fly_spawn = fps * fly_spawn_intervals
 
 starting_score = 0
 
-BG = (0, 0, 0)
+BG = (20,30,50)
 
 # ---------------------------
 # Loading Game Asset
