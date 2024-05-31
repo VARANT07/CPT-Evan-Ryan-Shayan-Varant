@@ -192,7 +192,45 @@ options_button_rect = options_button.get_rect(center=(600, 450))  # Set location
 # Main menu text
 menu_text = mytextfont.render("FROGGER", True, (255, 255, 255))
 text_rect = menu_text.get_rect(center=(320, 50))  # location of main menu
+#Back button assets
+back_button = pygame.image.load("back-button2 (1).png") # back button loading asset
+back_button_loc= back_button.get_rect(center=(100,100))
+back_button = pygame.transform.scale(back_button, (75, 75)) #size of back button
+back_button_loc = back_button.get_rect(center=(50,450)) #location of back button 
 
+# -----------------------
+
+#---------------------------
+# options label 
+label_font = pygame.font.Font("font.ttf", 36)  # Define font for the label
+label_text = label_font.render("Options", True, (255, 255, 255))  # Render the text surface
+label_rect = label_text.get_rect(center=((320,50)))  # Position the text
+# --------------------------
+# Volume label
+volume_font = pygame.font.Font("font.ttf", 30) # volume label font 
+volume_text = volume_font.render("Volume", True, (255,255,255)) # actual text
+volume_loc = volume_text.get_rect(center = (320, 100)) # location of text
+#---------------------------
+# Volume on button
+on_button = pygame.image.load("Sound_On_button.png") # loading sound on button
+on_button = pygame.transform.scale(on_button, (50, 50))  # size of button
+on_button_loc = on_button.get_rect(center=(250, 150)) # loc of button
+# -------------------------
+# Volume off button
+off_button = pygame.image.load("Sound_off_button.png") # loading sound on button
+off_button = pygame.transform.scale(off_button, (50, 50))  # size of button
+off_button_loc = off_button.get_rect(center=(400, 150)) # loc of button
+
+#-----------------------
+#Control label 
+control_font = pygame.font.Font("font.ttf", 30) # volume label font 
+control_text = control_font.render("Control settings", True, (255,255,255)) # actual text
+control_loc = control_text.get_rect(center = (320, 200)) # location of text
+# -------------------
+# exit button
+exit_button = pygame.image.load("Exit_game.png")  # loading sound on button
+exit_button = pygame.transform.scale(exit_button, (300, 100)) # size of button
+exit_button_loc = exit_button.get_rect(center = (320, 400)) # location of button
 # ----------------------------
 # Initialize global variables
 
