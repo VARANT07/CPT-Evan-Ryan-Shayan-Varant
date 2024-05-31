@@ -4,23 +4,50 @@ import random
 
 
 # ------------------ Screen Functions -----------------
-def main_menu(): 
+def main_menu():
     pygame.display.set_caption("Menu")
-    screen.fill(BG) # colour of screen
+    screen.fill(BG)  # colour of screen
     screen.blit(button_image, button_rect)
     screen.blit(menu_text, text_rect)
     screen.blit(options_button, options_button_rect)
 
-def game_screen(): 
-    screen.fill((0, 100, 0)) # colour of screen
+
+def game_screen():
+    global car_spawn_timer, cars, fps_counter, timer
+    screen.fill((255, 255, 255))
+    draw_frog(frog_starting_x, frog_starting_y)
+
+    # CAR SPAWNING
+    if car_spawn_timer > 0:
+        car_spawn_timer -= 0.5
+
+    if car_spawn_timer <= 0:
+        car_spawn = random.randint(1, 40)
+        if car_spawn == 1:
+            cars.append(generate_car())
+            car_spawn_timer = car_spawn_delay
+
+    cars = update_car(cars)
+
+    draw_car(cars)
+
+    # SCORE
+    score(starting_score)
+    fps_counter += 1
+    if fps_counter % fps == 0:
+        timer -= 1
+    countdown(timer)
+
+
 
 def options_menu():
-    screen.fill((BG)) # colour of screen
+    screen.fill((BG))  # colour of screen
     screen.blit(volume_text, volume_loc)
     screen.blit(back_button, back_button_loc)
     screen.blit(label_text, label_rect)
     screen.blit(on_button, on_button_loc)
     screen.blit(off_button, off_button_loc)
+
 
 # -------------------- Car and Frog Generation and Display ---------
 
@@ -95,13 +122,16 @@ def generate_fly_pos():
     return fly_width, fly_height
 
 
-def draw_fly (position):
+def draw_fly(position):
     x, y = position
     # DRAW FLY
     # pygame.draw.circle(screen, (240, 240, 240), (x, y), 30)
+
+
 def erase_fly(position):
     x, y, lifespan = position
     pygame.draw.circle(screen, (0, 0, 0), (x, y), 30)
+
 
 def fly_existing(flies_list: list):
     update_flies = []
@@ -116,18 +146,18 @@ def fly_existing(flies_list: list):
     return update_flies
 
 
-# -------------------- Display of the score and the Timer ------------ 
+# -------------------- Display of the score and the Timer ------------
 
 
-def score(scr: int): #score board Display
+def score(scr: int):  # score board Display
     my_font = pygame.font.SysFont("monospace", 40)
-    score_text = my_font.render("Score : "+str(scr), 1, (0,0,0))
+    score_text = my_font.render("Score : " + str(scr), 1, (0, 0, 0))
     screen.blit(score_text, (5, 10))
 
 
-def countdown(timer): #Timer Display
+def countdown(timer):  # Timer Display
     my_font_2 = pygame.font.SysFont("monospace", 40)
-    score_text = my_font_2.render("Timer : "+str(timer), 1, (0,0,0))
+    score_text = my_font_2.render("Timer : " + str(timer), 1, (0, 0, 0))
     screen.blit(score_text, (WIDTH - 250, 10))
 
 
@@ -146,22 +176,22 @@ fps_counter = 0
 
 # ---------------------------
 # Play Button assets
-button_image = pygame.image.load("Graphics/Home_screen/play_button.png") #loading play button asset
+button_image = pygame.image.load("Graphics/Home_screen/play_button.png")  # loading play button asset
 button_rect = button_image.get_rect(center=(320, 250))
 
-button_image = pygame.transform.scale(button_image, (300, 100)) #size of play button
-button_rect = button_image.get_rect(center=(320, 130)) #location of play button 
+button_image = pygame.transform.scale(button_image, (300, 100))  # size of play button
+button_rect = button_image.get_rect(center=(320, 130))  # location of play button
 # ------------------------
-# options button assets 
-options_button = pygame.image.load("Graphics/Home_screen/Options_button_pixleart.jpeg")# loading options button settings
-options_button_rect = options_button.get_rect(center=(100,100))
+# options button assets
+options_button = pygame.image.load("Graphics/Home_screen/Options_button_pixleart.jpeg")  # loading options button settings
+options_button_rect = options_button.get_rect(center=(100, 100))
 
-options_button = pygame.transform.scale(options_button, (50, 50))# size of button
+options_button = pygame.transform.scale(options_button, (50, 50))  # size of button
 options_button_rect = options_button.get_rect(center=(600, 450))  # Set location of options button
-#-----------------------------------
+# -----------------------------------
 # Main menu text
-menu_text = mytextfont.render("FROGGER", True, (255,255,255))
-text_rect = menu_text.get_rect(center=(320,50))#location of main menu
+menu_text = mytextfont.render("FROGGER", True, (255, 255, 255))
+text_rect = menu_text.get_rect(center=(320, 50))  # location of main menu
 
 # ----------------------------
 # Initialize global variables
@@ -170,7 +200,7 @@ frog_x_size = 50
 frog_y_size = 50
 box_size = 50
 
-frog_starting_x = WIDTH//2 - (frog_x_size//2)  # pygame starts from top left so to center it I did this
+frog_starting_x = WIDTH // 2 - (frog_x_size // 2)  # pygame starts from top left so to center it I did this
 frog_starting_y = HEIGHT - 100
 
 car_pos = [650, 600, 550, 500, 450]  # Y coordinates the cars can spawn in
@@ -182,6 +212,8 @@ fly_spawn_intervals = 5
 frames_per_fly_spawn = fps * fly_spawn_intervals
 
 starting_score = 0
+
+BG = (0, 0, 0)
 
 # ---------------------------
 # Loading Game Asset
@@ -203,7 +235,7 @@ car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
 car_5_img = pygame.image.load('Graphics/Cars/car_5.png')
 car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
 
-Current_screen = "main menu" # initial screen 
+current_screen = "main_menu"  # initial screen
 # ---------------------------
 # Game Loop
 running = True
@@ -222,36 +254,19 @@ while running:
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
             if event.key == pygame.K_RIGHT or event.key == ord("d"):
                 frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
-              
-                    
+
+
     # DRAWING
-    screen.fill((255, 255, 255))
-    draw_frog(frog_starting_x, frog_starting_y)
-    
-    # CAR SPAWNING
-    if car_spawn_timer > 0:
-        car_spawn_timer -= 0.5
 
-    if car_spawn_timer <= 0:
-        car_spawn = random.randint(1, 40)
-        if car_spawn == 1:
-            cars.append(generate_car())
-            car_spawn_timer = car_spawn_delay
 
-    cars = update_car(cars)
-
-    draw_car(cars)
-    
-    # SCORE
-    score(starting_score)
-    fps_counter += 1
-    if fps_counter % fps == 0:
-        timer -= 1
-    countdown(timer)
+    # SCREENS
+    if current_screen == "main_menu":
+        main_menu()
+    elif current_screen == "game_screen":
+        game_screen()
 
     pygame.display.flip()
     clock.tick(fps)
     # ------------------------------------
-    
 
 pygame.quit()
