@@ -173,6 +173,7 @@ pygame.display.set_caption("Frogger")
 fps = 60
 timer = 90
 fps_counter = 0
+BG = (20,30,50)
 
 # ---------------------------
 # Play Button assets
