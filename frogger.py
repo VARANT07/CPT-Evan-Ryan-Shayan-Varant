@@ -162,6 +162,10 @@ def countdown(timer):  # Timer Display
     score_text = my_font_2.render("Timer : " + str(timer), 1, (0, 0, 0))
     screen.blit(score_text, (WIDTH - 250, 10))
 
+def lives(live): #LIVE DISPLAY
+    my_font_3 = pygame.font.SysFont("monospace", 40)
+    scoretext = my_font_3.render("LIVES "+str(live), 1, (0,0,0))
+    screen.blit(scoretext, (WIDTH - 400, 10))
 
 pygame.init()
 
@@ -243,6 +247,7 @@ exit_button_loc = exit_button.get_rect(center = (320, 400)) # location of button
 # ----------------------------
 # Initialize global variables
 
+live = 3
 frog_x_size = 50
 frog_y_size = 50
 box_size = 50
@@ -311,12 +316,12 @@ while running:
                 current_screen = "game_screen"
 
         if frame_counter % frames_per_fly_spawn == 0:
-        fly_position = generate_fly_pos()
+            fly_position = generate_fly_pos()
         fly_counter += 1
         flies.append(fly_position)
 
         for fly in flies:
-        draw_fly(fly)
+            draw_fly(fly)
     
         flies = fly_existing(flies)
 
