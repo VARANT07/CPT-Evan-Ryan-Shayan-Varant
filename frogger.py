@@ -120,7 +120,7 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 
 def generate_fly_pos():
     fly_width = random.randint(0, WIDTH - 1)
-    fly_height = random.randint(0, HEIGHT - 1)
+    fly_height = 100
     return fly_width, fly_height
 
 
