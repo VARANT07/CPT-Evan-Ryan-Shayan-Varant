@@ -177,6 +177,12 @@ timer = 90
 fps_counter = 0
 
 # ---------------------------
+# font 
+mytextfont = pygame.font.Font("font.ttf", 50) #made a font 
+
+
+#--------------------------------
+
 # Play Button assets
 button_image = pygame.image.load("Graphics/Home_screen/play_button.png")  # loading play button asset
 button_rect = button_image.get_rect(center=(320, 250))
