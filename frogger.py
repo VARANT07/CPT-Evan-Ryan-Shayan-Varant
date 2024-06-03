@@ -257,6 +257,10 @@ car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
 
 fly_spawn_intervals = 5
 frames_per_fly_spawn = fps * fly_spawn_intervals
+frame_counter = 0
+fly_counter = 0
+fly_position = generate_fly_pos()
+flies = []
 
 starting_score = 0
 
