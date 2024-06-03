@@ -127,12 +127,12 @@ def generate_fly_pos():
 def draw_fly(position):
     x, y = position
     # DRAW FLY
-    # pygame.draw.circle(screen, (240, 240, 240), (x, y), 30)
+    screen.blit(fly_img_trans, (x, y))
 
 
 def erase_fly(position):
     x, y, lifespan = position
-    pygame.draw.circle(screen, (0, 0, 0), (x, y), 30)
+    pygame.draw.circle(screen, (0, 0, 255), (x + 25, y + 25), 30)
 
 
 def fly_existing(flies_list: list):
@@ -290,6 +290,9 @@ car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
 
 car_5_img = pygame.image.load('Graphics/Cars/car_5.png')
 car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
+
+fly_img = pygame.image.load("Fly.png")
+fly_img_trans = pygame.transform.scale(fly_img, (50, 50))
 
 current_screen = "main_menu"  # initial screen
 # ---------------------------
