@@ -317,6 +317,17 @@ while running:
             mouse_location = pygame.mouse.get_pos()
             if button_rect.collidepoint(mouse_location):
                 current_screen = "game_screen"
+            elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    running = False
+            elif Current_screen == "options":
+                if back_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "main_menu"
+                elif on_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    volume_on = True
+                    pygame.mixer.unpause()
+                elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    volume_on = False
+                    pygame.mixer.pause()
 
         if frame_counter % frames_per_fly_spawn == 0:
             fly_position = generate_fly_pos()
