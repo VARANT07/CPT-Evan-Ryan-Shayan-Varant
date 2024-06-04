@@ -294,6 +294,9 @@ car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_siz
 fly_img = pygame.image.load("Fly.png")
 fly_img_trans = pygame.transform.scale(fly_img, (50, 50))
 
+star_char_img = pygame.image.load('Graphics/Game_assets/star.png') 
+star_char_img_trans = pygame.transform.scale(star_char_img, (box_size, box_size)) 
+
 current_screen = "main_menu"  # initial screen
 # ---------------------------
 # Game Loop
