@@ -119,7 +119,7 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 
 
 def generate_fly_pos():
-    fly_width = random.randint(0, WIDTH - 1)
+    fly_WIDTH = random.choice(x_pos)
     fly_height = 100
     return fly_width, fly_height
 
@@ -264,7 +264,8 @@ fly_spawn_intervals = 5
 frames_per_fly_spawn = fps * fly_spawn_intervals
 frame_counter = 0
 fly_counter = 0
-fly_position = generate_fly_pos()
+fly_x_loc = [100, 250, 400, 550, 700]
+fly_position = generate_fly_pos(fly_x_loc)
 flies = []
 
 starting_score = 0
@@ -333,9 +334,9 @@ while running:
                     pygame.mixer.pause()
 
         if frame_counter % frames_per_fly_spawn == 0:
-            fly_position = generate_fly_pos()
-        fly_counter += 1
-        flies.append(fly_position)
+            fly_position = generate_fly_pos(fly_x_loc)
+            fly_counter += 1
+            flies.append(fly_position)
 
         for fly in flies:
             draw_fly(fly)
