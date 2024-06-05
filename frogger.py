@@ -166,10 +166,18 @@ def countdown(timer):  # Timer Display
     score_text = my_font_2.render("Timer : " + str(timer), 1, (0, 0, 0))
     screen.blit(score_text, (WIDTH - 250, 10))
 
-def lives(live): #LIVE DISPLAY
+def lives(): #LIVE DISPLAY
+    global live
     my_font_3 = pygame.font.SysFont("monospace", 40)
     scoretext = my_font_3.render("LIVES "+str(live), 1, (0,0,0))
     screen.blit(scoretext, (WIDTH - 400, 10))
+
+def hit_counter(): #LIVE HIT COUNTER
+    global live
+    if frog_char_img == "hit": 
+        live -= 1
+    if live == 0:
+        screen = "game_over_screen"
 
 pygame.init()
 
