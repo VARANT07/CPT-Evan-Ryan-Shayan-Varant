@@ -49,6 +49,10 @@ def options_menu():
     screen.blit(label_text, label_rect)
     screen.blit(on_button, on_button_loc)
     screen.blit(off_button, off_button_loc)
+    screen.blit(control_text, control_loc)
+    screen.blit(arrow_button, arrow_button_loc)
+    screen.blit(wasd_button, wasd_button_loc)
+    screen.blit(restart_button,restart_button_loc)
 
 
 # -------------------- Car and Frog Generation and Display ---------
@@ -245,6 +249,20 @@ exit_button = pygame.image.load("Exit_game.png")  # loading sound on button
 exit_button = pygame.transform.scale(exit_button, (300, 100)) # size of button
 exit_button_loc = exit_button.get_rect(center = (320, 400)) # location of button
 # ----------------------------
+# arrow keys image 
+arrow_button = pygame.image.load("Arrow_keys_options.png") # loading button asset
+arrow_button = pygame.transform.scale(arrow_button, (80, 80)) # size of button
+arrow_button_loc = arrow_button.get_rect(center = (400, 250))
+# ---------------------
+#wasd keys image
+wasd_button = pygame.image.load("wasd.png") # loading button asset
+wasd_button = pygame.transform.scale(wasd_button, (80, 80))
+wasd_button_loc = wasd_button.get_rect(center = (250, 250))
+#----------------------
+# restart progress button
+restart_button = pygame.image.load("Restart_button.png")
+restart_button = pygame.transform.scale(restart_button, (300, 100)) # size of button 
+restart_button_loc = restart_button.get_rect(center = (320, 400)) # loc of button
 # Initialize global variables
 
 live = 3
