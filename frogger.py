@@ -125,30 +125,37 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 def generate_fly_pos():
     fly_WIDTH = random.choice(x_pos)
     fly_height = 100
-    return fly_width, fly_height
+    permanent = False
+    return (fly_WIDTH, fly_HEIGHT, lifespan, permanent)
 
-
-def draw_fly(position):
-    x, y = position
+def draw_fly (position):
+    x, y, lifespan, permanent = position
     # DRAW FLY
     screen.blit(fly_img_trans, (x, y))
 
-
 def erase_fly(position):
-    x, y, lifespan = position
+    x, y, lifespan, permanent = position
     pygame.draw.circle(screen, (0, 0, 255), (x + 25, y + 25), 30)
-
 
 def fly_existing(flies_list: list):
     update_flies = []
 
     for fly in flies_list:
-        fly_WIDTH, fly_HEIGHT, lifespan = fly
-        lifespan -= 1
-        if lifespan > 0:
-            update_flies.append((fly_WIDTH, fly_HEIGHT, lifespan))
+        fly_WIDTH, fly_HEIGHT, lifespan, permanent = fly
+        
+        if not permanent and fly_WIDTH == frog_starting_x and fly_HEIGHT == frog_starting_y:
+            permanent = True
+            lifespan = -1
+        
+        if not permanent:
+            lifespan -= 1
+            if lifespan > 0:
+                update_flies.append((fly_WIDTH, fly_HEIGHT, lifespan, permanent))
+            else:
+                erase_fly(fly)
         else:
-            erase_fly(fly)
+            update_flies.append((fly_WIDTH, fly_HEIGHT, lifespan, permanent))
+    
     return update_flies
 
 
