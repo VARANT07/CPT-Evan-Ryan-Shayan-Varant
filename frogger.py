@@ -17,7 +17,7 @@ def main_menu():
 
 
 def game_screen():
-    global car_spawn_timer, cars, fps_counter, timer
+    global car_spawn_timer, cars, fps_counter, timer, fly_counter, frames_per_fly_spawn, flies
     screen.fill((255, 255, 255))
     draw_frog(frog_starting_x, frog_starting_y)
 
@@ -413,18 +413,6 @@ while running:
                 elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
                     volume_on = False
                     pygame.mixer.pause()
-
-        if frame_counter % frames_per_fly_spawn == 0:
-            fly_position = generate_fly_pos(fly_x_loc)
-            fly_counter += 1
-            flies.append(fly_position)
-
-        for fly in flies:
-            draw_fly(fly)
-    
-        flies = fly_existing(flies)
-
-
 
     # DRAWING
 
