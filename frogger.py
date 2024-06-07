@@ -200,6 +200,11 @@ def hit_counter(): #LIVE HIT COUNTER
     if live == 0:
         current_screen = "game_over_screen"
 
+def star_score():#Adding Score if Star is hit 
+    global star
+    if frog_char_img == "hit":
+        starting_score += 10 #Need to add proper variable 
+
 pygame.init()
 
 WIDTH = 800
