@@ -182,9 +182,9 @@ def score(scr: int):  # score board Display
     screen.blit(score_text, (5, 10))
 
 
-def countdown(timer):  # Timer Display
+def countdown(timer_countdown):  # Timer Display
     my_font_2 = pygame.font.SysFont("monospace", 40)
-    score_text = my_font_2.render("Timer : " + str(timer), 1, (0, 0, 0))
+    score_text = my_font_2.render("Timer : " + str(timer_countdown), 1, (0, 0, 0))
     screen.blit(score_text, (WIDTH - 250, 10))
 
 def lives(): #LIVE DISPLAY
@@ -194,11 +194,11 @@ def lives(): #LIVE DISPLAY
     screen.blit(scoretext, (WIDTH - 400, 10))
 
 def hit_counter(): #LIVE HIT COUNTER
-    global live
+    global live, current_screen
     if frog_char_img == "hit": 
         live -= 1
     if live == 0:
-        screen = "game_over_screen"
+        current_screen = "game_over_screen"
 
 pygame.init()
 
@@ -215,7 +215,7 @@ fps_counter = 0
 
 # ---------------------------
 # font 
-mytextfont = pygame.font.Font("font.ttf", 50) #made a font 
+my_text_font = pygame.font.Font("font.ttf", 50) #made a font 
 
 
 #--------------------------------
@@ -235,7 +235,7 @@ options_button = pygame.transform.scale(options_button, (50, 50))  # size of but
 options_button_rect = options_button.get_rect(center=(600, 450))  # Set location of options button
 # -----------------------------------
 # Main menu text
-menu_text = mytextfont.render("FROGGER", True, (255, 255, 255))
+menu_text = my_text_font.render("FROGGER", True, (255, 255, 255))
 text_rect = menu_text.get_rect(center=(320, 50))  # location of main menu
 # ------------------------------------
 #Back button assets
@@ -250,7 +250,7 @@ back_button_loc = back_button.get_rect(center=(50,450)) #location of back button
 # options label 
 label_font = pygame.font.Font("font.ttf", 36)  # Define font for the label
 label_text = label_font.render("Options", True, (255, 255, 255))  # Render the text surface
-label_rect = label_text.get_rect(center=((320,50)))  # Position the text
+label_rect = label_text.get_rect(center=(320,50))  # Position the text
 # --------------------------
 # Volume label
 volume_font = pygame.font.Font("font.ttf", 30) # volume label font 
