@@ -135,11 +135,12 @@ def car_collision(updated_cars: list):
 # -------------------- Fly generation and display -------------------- --
 
 
-def generate_fly_pos():
-    fly_WIDTH = random.choice(x_pos)
+def generate_fly_pos(x_pos: list) -> tuple:
+    fly_width = random.choice(x_pos)
     fly_height = 100
+    lifespan = frames_per_fly_spawn
     permanent = False
-    return (fly_WIDTH, fly_HEIGHT, lifespan, permanent)
+    return fly_width, fly_height, lifespan, permanent
 
 def draw_fly (position):
     x, y, lifespan, permanent = position
@@ -372,9 +373,9 @@ while running:
                 current_screen = "game_screen"
             elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
                     running = False
-            elif Current_screen == "options":
+            elif current_screen == "options":
                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
-                    Current_screen = "main_menu"
+                    current_screen = "main_menu"
                 elif on_button_loc.collidepoint(pygame.mouse.get_pos()):
                     volume_on = True
                     pygame.mixer.unpause()
