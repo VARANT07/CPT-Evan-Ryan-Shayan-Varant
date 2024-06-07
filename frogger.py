@@ -344,7 +344,7 @@ fly_spawn_intervals = 5
 frames_per_fly_spawn = fps * fly_spawn_intervals
 frame_counter = 0
 fly_counter = 0
-fly_x_loc = [100, 250, 400, 550, 700]
+fly_x_loc = [75, 225, 375, 525, 675]
 fly_position = generate_fly_pos(fly_x_loc)
 flies = []
 
@@ -405,9 +405,9 @@ while running:
             if button_rect.collidepoint(mouse_location):
                 current_screen = "game_screen"
             elif options_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    Current_screen = "options"
+                    current_screen = "options"
              if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
-                    Current_screen = "shop_screen"
+                    current_screen = "shop_screen"
             elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
                     running = False
             elif current_screen == "options":
@@ -428,6 +428,10 @@ while running:
         main_menu()
     elif current_screen == "game_screen":
         game_screen()
+    elif current_screen == "options":
+        options_menu()
+    elif current_screen == "shop_screen":
+        shop_screen()
 
     pygame.display.flip()
     clock.tick(fps)
