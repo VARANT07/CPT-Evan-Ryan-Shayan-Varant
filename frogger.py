@@ -187,7 +187,7 @@ def fly_existing(flies_list: list):
             if lifespan > 0:
                 update_flies.append((fly_width, fly_height, lifespan, permanent))
             else:
-                erase_fly(fly)
+                erase_fly(fly_char)
         else:
             update_flies.append((fly_width, fly_height, lifespan, permanent))
 
@@ -222,7 +222,7 @@ def hit_counter(): #LIVE HIT COUNTER
         current_screen = "game_over_screen"
 
 def star_score():#Adding Score if Star is hit 
-    global star
+    global star, starting_score
     if frog_char_img == "hit":
         starting_score += 10 #Need to add proper variable 
 
@@ -252,7 +252,7 @@ button_image = pygame.transform.scale(button_image, (500, 150)) #size of play bu
 button_rect = button_image.get_rect(center=(WIDTH // 2, HEIGHT //4)) #location of play button 
 # ---------------------------------------------
 # main menu text
-menu_text = mytextfont.render("FROGGER", True, (255,255,255))
+menu_text = my_text_font.render("FROGGER", True, (255,255,255))
 text_rect = menu_text.get_rect(center=(WIDTH // 2 , HEIGHT // 8))#location of main menu
 
 
