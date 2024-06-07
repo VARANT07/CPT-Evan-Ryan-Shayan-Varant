@@ -402,6 +402,10 @@ while running:
             mouse_location = pygame.mouse.get_pos()
             if button_rect.collidepoint(mouse_location):
                 current_screen = "game_screen"
+            elif options_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "options"
+             if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "shop_screen"
             elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
                     running = False
             elif current_screen == "options":
