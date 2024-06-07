@@ -289,7 +289,7 @@ control_text = control_font.render("Control settings", True, (255,255,255)) # ac
 control_loc = control_text.get_rect(center = (320, 200)) # location of text
 # -------------------
 # exit button
-exit_button = pygame.image.load("Graphics/Home_screen/Exit_game.png")  # loading sound on button
+exit_button = pygame.image.load("Graphics/Home_screen/Exit_game(1).png")  # loading sound on button
 exit_button = pygame.transform.scale(exit_button, (300, 100)) # size of button
 exit_button_loc = exit_button.get_rect(center = (320, 400)) # location of button
 # ----------------------------
