@@ -325,10 +325,6 @@ shop_sign = pygame.transform.scale(shop_sign, (500,250)) #size of button
 shop_button_loc = shop_sign.get_rect(center = (WIDTH // 2, HEIGHT // 2))
 
 
-
-
-
-
 # Initialize global variables
 
 live = 3
@@ -376,7 +372,7 @@ car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
 car_5_img = pygame.image.load('Graphics/Cars/car_5.png')
 car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
 
-fly_img = pygame.image.load("Fly.png")
+fly_img = pygame.image.load("Graphics/Game_assets/fly.png")
 fly_img_trans = pygame.transform.scale(fly_img, (50, 50))
 
 star_char_img = pygame.image.load('Graphics/Game_assets/star.png') 
