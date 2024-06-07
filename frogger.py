@@ -10,6 +10,10 @@ def main_menu():
     screen.blit(button_image, button_rect)
     screen.blit(menu_text, text_rect)
     screen.blit(options_button, options_button_rect)
+    screen.blit(shop_sign,shop_button_loc)
+    screen.blit(exit_button, exit_button_loc)
+
+
 
 
 def game_screen():
@@ -53,6 +57,12 @@ def options_menu():
     screen.blit(arrow_button, arrow_button_loc)
     screen.blit(wasd_button, wasd_button_loc)
     screen.blit(restart_button,restart_button_loc)
+
+
+def shop_screen():
+    screen.fill(BG)
+    screen.blit(back_button, back_button_loc)
+
 
 
 # -------------------- Car and Frog Generation and Display ---------
@@ -297,6 +307,11 @@ wasd_button_loc = wasd_button.get_rect(center = (250, 250))
 restart_button = pygame.image.load("Restart_button.png")
 restart_button = pygame.transform.scale(restart_button, (300, 100)) # size of button 
 restart_button_loc = restart_button.get_rect(center = (320, 400)) # loc of button
+#------------------------------
+# shop sign 
+shop_sign = pygame.image.load("shop_button.png")
+shop_sign = pygame.transform.scale(shop_sign, (400,200)) #size of button
+shop_button_loc = shop_sign.get_rect(center = (320, 255)) # Loc of button 
 # Initialize global variables
 
 live = 3
