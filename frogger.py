@@ -211,8 +211,8 @@ def countdown(timer_countdown):  # Timer Display
 def lives(): #LIVE DISPLAY
     global live
     my_font_3 = pygame.font.SysFont("monospace", 40)
-    scoretext = my_font_3.render("LIVES "+str(live), 1, (0,0,0))
-    screen.blit(scoretext, (WIDTH - 400, 10))
+    score_text = my_font_3.render("LIVES "+str(live), 1, (0,0,0))
+    screen.blit(score_text, (WIDTH - 400, 10))
 
 def hit_counter(): #LIVE HIT COUNTER
     global live, current_screen
