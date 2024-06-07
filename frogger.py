@@ -35,6 +35,17 @@ def game_screen():
 
     draw_car(cars)
 
+    if frame_counter % frames_per_fly_spawn == 0:
+        fly_position = generate_fly_pos(fly_x_loc)
+        fly_counter += 1
+        flies.append(fly_position)
+
+
+    for fly in flies:
+        draw_fly(fly)
+    
+    flies = fly_existing(flies)
+
     # SCORE
     score(starting_score)
     fps_counter += 1
