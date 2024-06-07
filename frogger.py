@@ -119,6 +119,19 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
     return updated_cars
 
 
+def car_collision(updated_cars: list):
+    global frog_starting_x, frog_starting_y
+    for i in updated_cars:
+        x_pos, y_pos, speed, car_direction = i
+        if frog_starting_y == y_pos and x_pos - 50 < frog_starting_x < x_pos + 50:
+            death_pos = frog_starting_x, frog_starting_y
+            # screen.blit(death_animation_img_trans, (death_pos))
+            # RESPAWN
+            frog_starting_x = WIDTH // 2 - (frog_x_size // 2)  # pygame starts from top left so to center it I did this
+            frog_starting_y = HEIGHT - 100
+            return True
+
+
 # -------------------- Fly generation and display -------------------- --
 
 
@@ -330,6 +343,9 @@ fly_img_trans = pygame.transform.scale(fly_img, (50, 50))
 
 star_char_img = pygame.image.load('Graphics/Game_assets/star.png') 
 star_char_img_trans = pygame.transform.scale(star_char_img, (box_size, box_size)) 
+
+death_animation_img = pygame.image.load("Graphics/Game_assets/death_animation.png")
+death_animation_img_trans = pygame.transform.scale(death_animation_img, (box_size, box_size))
 
 current_screen = "main_menu"  # initial screen
 # ---------------------------
