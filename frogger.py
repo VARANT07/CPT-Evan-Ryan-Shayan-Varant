@@ -154,22 +154,22 @@ def erase_fly(position):
 def fly_existing(flies_list: list):
     update_flies = []
 
-    for fly in flies_list:
-        fly_WIDTH, fly_HEIGHT, lifespan, permanent = fly
-        
-        if not permanent and fly_WIDTH == frog_starting_x and fly_HEIGHT == frog_starting_y:
+    for fly_char in flies_list:
+        fly_width, fly_height, lifespan, permanent = fly_char
+
+        if not permanent and fly_width == frog_starting_x and fly_height == frog_starting_y:
             permanent = True
             lifespan = -1
-        
+
         if not permanent:
             lifespan -= 1
             if lifespan > 0:
-                update_flies.append((fly_WIDTH, fly_HEIGHT, lifespan, permanent))
+                update_flies.append((fly_width, fly_height, lifespan, permanent))
             else:
                 erase_fly(fly)
         else:
-            update_flies.append((fly_WIDTH, fly_HEIGHT, lifespan, permanent))
-    
+            update_flies.append((fly_width, fly_height, lifespan, permanent))
+
     return update_flies
 
 
