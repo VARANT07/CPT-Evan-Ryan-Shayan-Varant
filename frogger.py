@@ -247,7 +247,7 @@ my_text_font = pygame.font.Font("Fonts/font.ttf", 50) #made a font
 #--------------------------------
 BG = (20,30,50)
 # Play button
-button_image = pygame.image.load("play_button.png") #loading play button asset
+button_image = pygame.image.load("Graphics/Home_screen/play_button.png") #loading play button asset
 button_image = pygame.transform.scale(button_image, (500, 150)) #size of play button
 button_rect = button_image.get_rect(center=(WIDTH // 2, HEIGHT //4)) #location of play button 
 # ---------------------------------------------
@@ -258,14 +258,14 @@ text_rect = menu_text.get_rect(center=(WIDTH // 2 , HEIGHT // 8))#location of ma
 
 #----------------------------------
 #options 
-options_button = pygame.image.load("Options_button_pixleart.jpeg")#loading options button settings
+options_button = pygame.image.load("Graphics/Home_screen/Options_button_pixleart.jpeg")#loading options button settings
 options_button = pygame.transform.scale(options_button, (70, 70))#size of button
 options_button_rect = options_button.get_rect(center=(750,700))  # Set location of options button
 
 
 # ------------------------
 #Back button assets
-back_button = pygame.image.load("back-button2 (1).png") # back button loading asset
+back_button = pygame.image.load("Graphics/Home_screen/back-button2 (1).png") # back button loading asset
 back_button = pygame.transform.scale(back_button, (100, 100)) #size of back button
 back_button_loc = back_button.get_rect(center=(100, 700)) #location of back button 
 
@@ -273,54 +273,54 @@ back_button_loc = back_button.get_rect(center=(100, 700)) #location of back butt
 
 #---------------------------
 # options label 
-label_font = pygame.font.Font("font.ttf", 36)  # Define font for the label
+label_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
 label_text = label_font.render("Options", True, (255, 255, 255))  # Render the text surface
 label_rect = label_text.get_rect(center=(((WIDTH // 2 , HEIGHT // 8))))  # Position the text
 # --------------------------
 # Volume label
-volume_font = pygame.font.Font("font.ttf", 30) # volume label font 
+volume_font = pygame.font.Font("Fonts/font.ttf", 30) # volume label font 
 volume_text = volume_font.render("Volume", True, (255,255,255)) # actual text
 volume_loc = volume_text.get_rect(center = (WIDTH // 2, HEIGHT // 4)) # location of text
 #---------------------------
 # Volume on button
-on_button = pygame.image.load("Sound_On_button.png") # loading sound on button
+on_button = pygame.image.load("Graphics/Home_screen/Sound_On_button.png") # loading sound on button
 on_button = pygame.transform.scale(on_button, (100, 100))  # size of button
 on_button_loc = on_button.get_rect(center=(WIDTH // 2 - 75, HEIGHT // 3)) # loc of button
 # -------------------------
 # Volume off button
-off_button = pygame.image.load("Sound_off_button.png") # loading sound on button
+off_button = pygame.image.load("Graphics/Home_screen/Sound_off_button.png") # loading sound on button
 off_button = pygame.transform.scale(off_button, (100, 100))  # size of button
 off_button_loc = off_button.get_rect(center=(WIDTH // 2 + 75, HEIGHT // 3)) # loc of button
 
 #-----------------------
 #Control label 
-control_font = pygame.font.Font("font.ttf", 30) # volume label font 
+control_font = pygame.font.Font("Fonts/font.ttf", 30) # volume label font 
 control_text = control_font.render("Control settings", True, (255,255,255)) # actual text
 control_loc = control_text.get_rect(center = (WIDTH // 2, HEIGHT // 2)) # location of text
 # -------------------
 # exit button
-exit_button = pygame.image.load("Exit_game(1).png")  # loading sound on button
+exit_button = pygame.image.load("Graphics/Home_screen/Exit_game(1).png")  # loading sound on button
 exit_button = pygame.transform.scale(exit_button, (500, 150)) # size of button
 exit_button_loc = exit_button.get_rect(center = (WIDTH // 2, 700)) # location of button
 
 #---------------------
 # arrow keys image 
-arrow_button = pygame.image.load("Arrow_keys_options.png") # loading button asset
+arrow_button = pygame.image.load("Graphics/Home_screen/Arrow_keys_options.png") # loading button asset
 arrow_button = pygame.transform.scale(arrow_button, (80, 80)) # size of button
 arrow_button_loc = arrow_button.get_rect(center = (WIDTH // 2 + 75, 450))
 # ---------------------
 #wasd keys image
-wasd_button = pygame.image.load("wasd.png") # loading button asset
+wasd_button = pygame.image.load("Graphics/Home_screen/wasd.png") # loading button asset
 wasd_button = pygame.transform.scale(wasd_button, (80, 80))
 wasd_button_loc = wasd_button.get_rect(center = (WIDTH // 2 - 75, 450))
 #----------------------
 # restart progress button
-restart_button = pygame.image.load("Restart_button.png")
+restart_button = pygame.image.load("Graphics/Home_screen/Restart_button.png")
 restart_button = pygame.transform.scale(restart_button, (500, 150)) # size of button 
 restart_button_loc = restart_button.get_rect(center = (WIDTH // 2, 700)) # loc of button
 #------------------------------
 # shop sign 
-shop_sign = pygame.image.load("shop_button.png")
+shop_sign = pygame.image.load("Graphics/Home_screen/shop_button.png")
 shop_sign = pygame.transform.scale(shop_sign, (500,250)) #size of button
 shop_button_loc = shop_sign.get_rect(center = (WIDTH // 2, HEIGHT // 2))
 
