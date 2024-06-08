@@ -55,7 +55,6 @@ def game_screen():
     car_collision(cars)
 
     lives()
-    print(death_timer)
 
     if dead:
         screen.blit(death_animation_img_trans, death_pos)
