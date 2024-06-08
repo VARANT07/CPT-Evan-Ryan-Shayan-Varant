@@ -10,16 +10,14 @@ def main_menu():
     screen.blit(button_image, button_rect)
     screen.blit(menu_text, text_rect)
     screen.blit(options_button, options_button_rect)
-    screen.blit(shop_sign,shop_button_loc)
+    screen.blit(shop_sign, shop_button_loc)
     screen.blit(exit_button, exit_button_loc)
 
 
-
-
 def game_screen():
-    global car_spawn_timer, cars, fps_counter, timer, fly_counter, frames_per_fly_spawn, flies
+    global car_spawn_timer, cars, fps_counter, timer, fly_counter, frames_per_fly_spawn, flies, death_timer, dead, \
+        live, current_screen, frog_starting_x, frog_starting_y, death_pos
     screen.fill((255, 255, 255))
-    draw_frog(frog_starting_x, frog_starting_y)
 
     # CAR SPAWNING
     if car_spawn_timer > 0:
@@ -36,14 +34,13 @@ def game_screen():
     draw_car(cars)
 
     if frame_counter % frames_per_fly_spawn == 0:
-        fly_position = generate_fly_pos(fly_x_loc)
+        fly_pos = generate_fly_pos(fly_x_loc)
         fly_counter += 1
-        flies.append(fly_position)
-
+        flies.append(fly_pos)
 
     for fly in flies:
         draw_fly(fly)
-    
+
     flies = fly_existing(flies)
 
     # SCORE
@@ -52,9 +49,27 @@ def game_screen():
     if fps_counter % fps == 0:
         timer -= 1
     if timer < 0:
-        screen.fill((0, 0, 0))
+        current_screen = "game_over"
     countdown(timer)
 
+    car_collision(cars)
+
+    lives()
+    print(death_timer)
+
+    if dead:
+        screen.blit(death_animation_img_trans, death_pos)
+        death_timer -= 1
+        if death_timer < 0:
+            dead = False
+            frog_starting_x = WIDTH // 2 - (frog_x_size // 2)
+            frog_starting_y = HEIGHT - 100
+            live -= 1
+            death_timer = 120
+            if live == 0:
+                current_screen = "game_over"
+    else:
+        draw_frog(frog_starting_x, frog_starting_y)
 
 
 def options_menu():
@@ -67,13 +82,12 @@ def options_menu():
     screen.blit(control_text, control_loc)
     screen.blit(arrow_button, arrow_button_loc)
     screen.blit(wasd_button, wasd_button_loc)
-    screen.blit(restart_button,restart_button_loc)
+    screen.blit(restart_button, restart_button_loc)
 
 
 def shop_screen():
     screen.fill(BG)
     screen.blit(back_button, back_button_loc)
-
 
 
 # -------------------- Car and Frog Generation and Display ---------
@@ -141,16 +155,14 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 
 
 def car_collision(updated_cars: list):
-    global frog_starting_x, frog_starting_y
-    for i in updated_cars:
-        x_pos, y_pos, speed, car_direction = i
-        if frog_starting_y == y_pos and x_pos - 50 < frog_starting_x < x_pos + 50:
-            death_pos = frog_starting_x, frog_starting_y
-            # screen.blit(death_animation_img_trans, (death_pos))
-            # RESPAWN
-            frog_starting_x = WIDTH // 2 - (frog_x_size // 2)  # pygame starts from top left so to center it I did this
-            frog_starting_y = HEIGHT - 100
-            return True
+    global frog_starting_x, frog_starting_y, dead, death_pos
+
+    if not dead:
+        for i in updated_cars:
+            x_pos, y_pos, speed, car_direction = i
+            if frog_starting_y == y_pos and x_pos - 50 < frog_starting_x < x_pos + 50:
+                death_pos = frog_starting_x, frog_starting_y
+                dead = True
 
 
 # -------------------- Fly generation and display -------------------- --
@@ -163,14 +175,17 @@ def generate_fly_pos(x_pos: list) -> tuple:
     permanent = False
     return fly_width, fly_height, lifespan, permanent
 
-def draw_fly (position):
+
+def draw_fly(position):
     x, y, lifespan, permanent = position
     # DRAW FLY
     screen.blit(fly_img_trans, (x, y))
 
+
 def erase_fly(position):
     x, y, lifespan, permanent = position
     pygame.draw.circle(screen, (0, 0, 255), (x + 25, y + 25), 30)
+
 
 def fly_existing(flies_list: list):
     update_flies = []
@@ -208,23 +223,19 @@ def countdown(timer_countdown):  # Timer Display
     score_text = my_font_2.render("Timer : " + str(timer_countdown), 1, (0, 0, 0))
     screen.blit(score_text, (WIDTH - 250, 10))
 
-def lives(): #LIVE DISPLAY
+
+def lives():  # LIVE DISPLAY
     global live
     my_font_3 = pygame.font.SysFont("monospace", 40)
-    score_text = my_font_3.render("LIVES "+str(live), 1, (0,0,0))
-    screen.blit(score_text, (WIDTH - 400, 10))
+    score_text = my_font_3.render("LIVES " + str(live), 1, (0, 0, 0))
+    screen.blit(score_text, (WIDTH - 500, 10))
 
-def hit_counter(): #LIVE HIT COUNTER
-    global live, current_screen
-    if frog_char_img == "hit": 
-        live -= 1
-    if live == 0:
-        current_screen = "game_over_screen"
 
-def star_score():#Adding Score if Star is hit 
+def star_score():  # Adding Score if Star is hit
     global star, starting_score
     if frog_char_img == "hit":
-        starting_score += 10 #Need to add proper variable 
+        starting_score += 10  # Need to add proper variable
+
 
 pygame.init()
 
@@ -240,90 +251,85 @@ timer = 90
 fps_counter = 0
 
 # ---------------------------
-# font 
-my_text_font = pygame.font.Font("Fonts/font.ttf", 50) #made a font 
+# font
+my_text_font = pygame.font.Font("Fonts/font.ttf", 50)  # made a font
 
-
-#--------------------------------
-BG = (20,30,50)
+# --------------------------------
 # Play button
-button_image = pygame.image.load("Graphics/Home_screen/play_button.png") #loading play button asset
-button_image = pygame.transform.scale(button_image, (500, 150)) #size of play button
-button_rect = button_image.get_rect(center=(WIDTH // 2, HEIGHT //4)) #location of play button 
+button_image = pygame.image.load("Graphics/Home_screen/play_button.png")  # loading play button asset
+button_image = pygame.transform.scale(button_image, (500, 150))  # size of play button
+button_rect = button_image.get_rect(center=(WIDTH // 2, HEIGHT // 4))  # location of play button
 # ---------------------------------------------
 # main menu text
-menu_text = my_text_font.render("FROGGER", True, (255,255,255))
-text_rect = menu_text.get_rect(center=(WIDTH // 2 , HEIGHT // 8))#location of main menu
+menu_text = my_text_font.render("FROGGER", True, (255, 255, 255))
+text_rect = menu_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # location of main menu
 
-
-#----------------------------------
-#options 
-options_button = pygame.image.load("Graphics/Home_screen/Options_button_pixleart.jpeg")#loading options button settings
-options_button = pygame.transform.scale(options_button, (70, 70))#size of button
-options_button_rect = options_button.get_rect(center=(750,700))  # Set location of options button
-
+# ----------------------------------
+# options
+options_button = pygame.image.load("Graphics/Home_screen/Options_button.jpeg")  # loading option button setting
+options_button = pygame.transform.scale(options_button, (70, 70))  # size of button
+options_button_rect = options_button.get_rect(center=(750, 700))  # Set location of options button
 
 # ------------------------
-#Back button assets
-back_button = pygame.image.load("Graphics/Home_screen/back-button2 (1).png") # back button loading asset
-back_button = pygame.transform.scale(back_button, (100, 100)) #size of back button
-back_button_loc = back_button.get_rect(center=(100, 700)) #location of back button 
+# Back button assets
+back_button = pygame.image.load("Graphics/Home_screen/back-button2.png")  # back button loading asset
+back_button = pygame.transform.scale(back_button, (100, 100))  # size of back button
+back_button_loc = back_button.get_rect(center=(100, 700))  # location of back button
 
 # -----------------------
 
-#---------------------------
-# options label 
+# ---------------------------
+# options label
 label_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
 label_text = label_font.render("Options", True, (255, 255, 255))  # Render the text surface
-label_rect = label_text.get_rect(center=(((WIDTH // 2 , HEIGHT // 8))))  # Position the text
+label_rect = label_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # Position the text
 # --------------------------
 # Volume label
-volume_font = pygame.font.Font("Fonts/font.ttf", 30) # volume label font 
-volume_text = volume_font.render("Volume", True, (255,255,255)) # actual text
-volume_loc = volume_text.get_rect(center = (WIDTH // 2, HEIGHT // 4)) # location of text
-#---------------------------
+volume_font = pygame.font.Font("Fonts/font.ttf", 30)  # volume label font
+volume_text = volume_font.render("Volume", True, (255, 255, 255))  # actual text
+volume_loc = volume_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))  # location of text
+# ---------------------------
 # Volume on button
-on_button = pygame.image.load("Graphics/Home_screen/Sound_On_button.png") # loading sound on button
+on_button = pygame.image.load("Graphics/Home_screen/Sound_On_button.png")  # loading sound on button
 on_button = pygame.transform.scale(on_button, (100, 100))  # size of button
-on_button_loc = on_button.get_rect(center=(WIDTH // 2 - 75, HEIGHT // 3)) # loc of button
+on_button_loc = on_button.get_rect(center=(WIDTH // 2 - 75, HEIGHT // 3))  # loc of button
 # -------------------------
 # Volume off button
-off_button = pygame.image.load("Graphics/Home_screen/Sound_off_button.png") # loading sound on button
+off_button = pygame.image.load("Graphics/Home_screen/Sound_off_button.png")  # loading sound on button
 off_button = pygame.transform.scale(off_button, (100, 100))  # size of button
-off_button_loc = off_button.get_rect(center=(WIDTH // 2 + 75, HEIGHT // 3)) # loc of button
+off_button_loc = off_button.get_rect(center=(WIDTH // 2 + 75, HEIGHT // 3))  # loc of button
 
-#-----------------------
-#Control label 
-control_font = pygame.font.Font("Fonts/font.ttf", 30) # volume label font 
-control_text = control_font.render("Control settings", True, (255,255,255)) # actual text
-control_loc = control_text.get_rect(center = (WIDTH // 2, HEIGHT // 2)) # location of text
+# -----------------------
+# Control label
+control_font = pygame.font.Font("Fonts/font.ttf", 30)  # volume label font
+control_text = control_font.render("Control settings", True, (255, 255, 255))  # actual text
+control_loc = control_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))  # location of text
 # -------------------
 # exit button
-exit_button = pygame.image.load("Graphics/Home_screen/Exit_game(1).png")  # loading sound on button
-exit_button = pygame.transform.scale(exit_button, (500, 150)) # size of button
-exit_button_loc = exit_button.get_rect(center = (WIDTH // 2, 700)) # location of button
+exit_button = pygame.image.load("Graphics/Home_screen/Exit_game.png")  # loading sound on button
+exit_button = pygame.transform.scale(exit_button, (500, 150))  # size of button
+exit_button_loc = exit_button.get_rect(center=(WIDTH // 2, 700))  # location of button
 
-#---------------------
-# arrow keys image 
-arrow_button = pygame.image.load("Graphics/Home_screen/Arrow_keys_options.png") # loading button asset
-arrow_button = pygame.transform.scale(arrow_button, (80, 80)) # size of button
-arrow_button_loc = arrow_button.get_rect(center = (WIDTH // 2 + 75, 450))
 # ---------------------
-#wasd keys image
-wasd_button = pygame.image.load("Graphics/Home_screen/wasd.png") # loading button asset
+# arrow keys image
+arrow_button = pygame.image.load("Graphics/Home_screen/Arrow_keys_options.png")  # loading button asset
+arrow_button = pygame.transform.scale(arrow_button, (80, 80))  # size of button
+arrow_button_loc = arrow_button.get_rect(center=(WIDTH // 2 + 75, 450))
+# ---------------------
+# wasd keys image
+wasd_button = pygame.image.load("Graphics/Home_screen/wasd.png")  # loading button asset
 wasd_button = pygame.transform.scale(wasd_button, (80, 80))
-wasd_button_loc = wasd_button.get_rect(center = (WIDTH // 2 - 75, 450))
-#----------------------
+wasd_button_loc = wasd_button.get_rect(center=(WIDTH // 2 - 75, 450))
+# ----------------------
 # restart progress button
 restart_button = pygame.image.load("Graphics/Home_screen/Restart_button.png")
-restart_button = pygame.transform.scale(restart_button, (500, 150)) # size of button 
-restart_button_loc = restart_button.get_rect(center = (WIDTH // 2, 700)) # loc of button
-#------------------------------
-# shop sign 
+restart_button = pygame.transform.scale(restart_button, (500, 150))  # size of button
+restart_button_loc = restart_button.get_rect(center=(WIDTH // 2, 700))  # loc of button
+# ------------------------------
+# shop sign
 shop_sign = pygame.image.load("Graphics/Home_screen/shop_button.png")
-shop_sign = pygame.transform.scale(shop_sign, (500,250)) #size of button
-shop_button_loc = shop_sign.get_rect(center = (WIDTH // 2, HEIGHT // 2))
-
+shop_sign = pygame.transform.scale(shop_sign, (500, 250))  # size of button
+shop_button_loc = shop_sign.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
 # Initialize global variables
 
@@ -339,18 +345,20 @@ car_pos = [650, 600, 550, 500, 450]  # Y coordinates the cars can spawn in
 cars = []
 car_spawn_timer = 0
 car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
+death_timer = 120
+dead = False
+death_pos = (0, 0)
 
 fly_spawn_intervals = 5
 frames_per_fly_spawn = fps * fly_spawn_intervals
 frame_counter = 0
 fly_counter = 0
 fly_x_loc = [75, 225, 375, 525, 675]
-fly_position = generate_fly_pos(fly_x_loc)
 flies = []
 
 starting_score = 0
 
-BG = (20,30,50)
+BG = (20, 30, 50)
 
 # ---------------------------
 # Loading Game Asset
@@ -375,8 +383,8 @@ car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_siz
 fly_img = pygame.image.load("Graphics/Game_assets/fly.png")
 fly_img_trans = pygame.transform.scale(fly_img, (50, 50))
 
-star_char_img = pygame.image.load('Graphics/Game_assets/star.png') 
-star_char_img_trans = pygame.transform.scale(star_char_img, (box_size, box_size)) 
+star_char_img = pygame.image.load('Graphics/Game_assets/star.png')
+star_char_img_trans = pygame.transform.scale(star_char_img, (box_size, box_size))
 
 death_animation_img = pygame.image.load("Graphics/Game_assets/death_animation.png")
 death_animation_img_trans = pygame.transform.scale(death_animation_img, (box_size, box_size))
@@ -405,11 +413,11 @@ while running:
             if button_rect.collidepoint(mouse_location):
                 current_screen = "game_screen"
             elif options_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    current_screen = "options"
-             if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
-                    current_screen = "shop_screen"
+                current_screen = "options"
+            if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
+                current_screen = "shop_screen"
             elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
-                    running = False
+                running = False
             elif current_screen == "options":
                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
                     current_screen = "main_menu"
@@ -421,7 +429,7 @@ while running:
                     pygame.mixer.pause()
 
     # DRAWING
-
+    screen.fill((0, 0, 0))
 
     # SCREENS
     if current_screen == "main_menu":
