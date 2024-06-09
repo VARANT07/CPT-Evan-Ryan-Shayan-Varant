@@ -164,6 +164,32 @@ def car_collision(updated_cars: list):
                 dead = True
 
 
+
+def wasd_movement():
+    global frog_starting_x, frog_starting_y
+    if event.key == ord("w"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
+    if event.key == ord("s"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
+    if event.key == ord("a"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
+    if event.key == ord("d"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+
+
+def arrow_movement():
+    global frog_starting_x, frog_starting_y
+    if event.key == pygame.K_UP:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
+    if event.key == pygame.K_DOWN:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
+    if event.key == pygame.K_LEFT:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
+    if event.key == pygame.K_RIGHT:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+
+
+
 # -------------------- Fly generation and display -------------------- --
 
 
@@ -379,6 +405,15 @@ car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
 car_5_img = pygame.image.load('Graphics/Cars/car_5.png')
 car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
 
+log_1x2_img = pygame.image.load('Graphics/Cars and Logs/1X2 Log.png')
+log_1x2_img_trans = pygame.transform.scale(log_1x2_img, (box_size * 2, box_size))
+
+log_1x3_img = pygame.image.load('Graphics/Cars and Logs/1X3 Log.png')
+log_1x3_img_trans = pygame.transform.scale(log_1x3_img, (box_size * 3, box_size))
+
+log_1x4_img = pygame.image.load('Graphics/Cars and Logs/1X4 Log.png')
+log_1x4_img_trans = pygame.transform.scale(log_1x4_img, (box_size * 4, box_size))
+
 fly_img = pygame.image.load("Graphics/Game_assets/fly.png")
 fly_img_trans = pygame.transform.scale(fly_img, (50, 50))
 
@@ -387,6 +422,15 @@ star_char_img_trans = pygame.transform.scale(star_char_img, (box_size, box_size)
 
 death_animation_img = pygame.image.load("Graphics/Game_assets/death_animation.png")
 death_animation_img_trans = pygame.transform.scale(death_animation_img, (box_size, box_size))
+
+ground_img = pygame.image.load("Graphics/Game_assets/Ground.png")
+ground_img_trans = pygame.transform.scale(ground_img, (WIDTH, box_size))
+
+road_img = pygame.image.load("Graphics/Game_assets/Road.png")
+road_img_trans = pygame.transform.scale(road_img, (WIDTH, box_size * 6))
+
+water_img = pygame.image.load("Graphics/Game_assets/Water.png")
+water_img_trans = pygame.transform.scale(water_img, (WIDTH, box_size))
 
 current_screen = "main_menu"  # initial screen
 # ---------------------------
@@ -399,14 +443,8 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             # HANDLING THE FROG MOVEMENTS
-            if event.key == pygame.K_UP or event.key == ord("w"):
-                frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
-            if event.key == pygame.K_DOWN or event.key == ord("s"):
-                frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
-            if event.key == pygame.K_LEFT or event.key == ord("a"):
-                frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
-            if event.key == pygame.K_RIGHT or event.key == ord("d"):
-                frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+            wasd_movement()
+            arrow_movement()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_location = pygame.mouse.get_pos()
             if button_rect.collidepoint(mouse_location):
