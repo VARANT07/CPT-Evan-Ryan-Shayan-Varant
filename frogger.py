@@ -87,6 +87,10 @@ def options_menu():
 def shop_screen():
     screen.fill(BG)
     screen.blit(back_button, back_button_loc)
+    screen.blit(christmas_skin,christmas_skin_loc)
+    screen.blit(OG_skin,OG_skin_loc)
+    screen.blit(miles_skin,miles_skin_loc)
+    screen.blit(skin_text,skin_loc)
 
 def game_over():
     screen.fill(BG) #colour of Screen 
@@ -363,6 +367,26 @@ shop_button_loc = shop_sign.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 game_over_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
 game_over_text = game_over_font.render("Game_Over", True, (255, 255, 255))  # Render the text surface
 game_over_loc = game_over_text.get_rect(center=(400,100))  # Position the text
+# --------------------------------------------
+#Christmas frog skin 
+christmas_skin = pygame.image.load("christmas_frog_skin.png")
+christmas_skin = pygame.transform.scale(christmas_skin, (150,150))
+christmas_skin_loc = christmas_skin.get_rect(center = (WIDTH // 2, HEIGHT // 2))
+#------------------------
+# OG Skin
+OG_skin = pygame.image.load("Frog_char.png")
+OG_skin = pygame.transform.scale(OG_skin, (150,150))
+OG_skin_loc = OG_skin.get_rect(center =(150, HEIGHT//2))
+# ---------------------
+# Miles morales 
+miles_skin = pygame.image.load("miles_morales_frog.png")
+miles_skin = pygame.transform.scale(miles_skin, (150,150))
+miles_skin_loc = OG_skin.get_rect(center =(WIDTH-150, HEIGHT//2))
+# --------------------------
+# skins label
+skin_font = pygame.font.Font("font.ttf", 50) # volume label font 
+skin_text = skin_font.render("Skins", True, (255,255,255)) # actual text
+skin_loc = skin_text.get_rect(center = (WIDTH // 2, HEIGHT // 8)) # location of text
 
 # Initialize global variables
 
