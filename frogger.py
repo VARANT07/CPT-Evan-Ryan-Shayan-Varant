@@ -16,8 +16,9 @@ def main_menu():
 
 def game_screen():
     global car_spawn_timer, cars, fps_counter, timer, fly_counter, frames_per_fly_spawn, flies, death_timer, dead, \
-        live, current_screen, frog_starting_x, frog_starting_y, death_pos
+        live, current_screen, frog_starting_x, frog_starting_y, death_pos, frame_counter
     screen.fill((0, 0, 255))
+    frame_counter += 1
 
     screen.blit(road_img_trans, (0, (HEIGHT - 375)))
 
@@ -501,7 +502,6 @@ while running:
 
     screen.fill((0, 0, 0))
 
-    frame_counter += 1
 
     # SCREENS
     if current_screen == "main_menu":
