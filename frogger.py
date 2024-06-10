@@ -447,23 +447,27 @@ while running:
             arrow_movement()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_location = pygame.mouse.get_pos()
-            if button_rect.collidepoint(mouse_location):
-                current_screen = "game_screen"
-            elif options_button_rect.collidepoint(pygame.mouse.get_pos()):
-                current_screen = "options"
-            if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
-                current_screen = "shop_screen"
-            elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
-                running = False
-            elif current_screen == "options":
+           if Current_screen == "main_menu":
+                if button_rect.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "game"
+                elif options_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "options"
+                if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "shop_screen"
+                elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    running = False
+            elif Current_screen == "options":
                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
-                    current_screen = "main_menu"
+                    Current_screen = "main_menu"
                 elif on_button_loc.collidepoint(pygame.mouse.get_pos()):
                     volume_on = True
                     pygame.mixer.unpause()
                 elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
                     volume_on = False
                     pygame.mixer.pause()
+            elif Current_screen == "shop_screen":
+                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    Current_screen = "main_menu"
 
     # DRAWING
     screen.fill((0, 0, 0))
