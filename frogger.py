@@ -17,7 +17,12 @@ def main_menu():
 def game_screen():
     global car_spawn_timer, cars, fps_counter, timer, fly_counter, frames_per_fly_spawn, flies, death_timer, dead, \
         live, current_screen, frog_starting_x, frog_starting_y, death_pos
-    screen.fill((255, 255, 255))
+    screen.fill((0, 0, 255))
+
+    screen.blit(road_img_trans, (0, (HEIGHT - 375)))
+
+    screen.blit(ground_img_trans, (0, HEIGHT / 2))
+    screen.blit(ground_img_trans, (0, HEIGHT - 100))
 
     # CAR SPAWNING
     if car_spawn_timer > 0:
@@ -48,7 +53,7 @@ def game_screen():
     fps_counter += 1
     if fps_counter % fps == 0:
         timer -= 1
-    if timer < 0:
+    if timer == 0:
         current_screen = "game_over"
     countdown(timer)
 
@@ -87,16 +92,44 @@ def options_menu():
 def shop_screen():
     screen.fill(BG)
     screen.blit(back_button, back_button_loc)
-    screen.blit(christmas_skin,christmas_skin_loc)
-    screen.blit(OG_skin,OG_skin_loc)
-    screen.blit(miles_skin,miles_skin_loc)
-    screen.blit(skin_text,skin_loc)
+    screen.blit(christmas_skin, christmas_skin_loc)
+    screen.blit(OG_skin, OG_skin_loc)
+    screen.blit(miles_skin, miles_skin_loc)
+    screen.blit(skin_text, skin_loc)
+
 
 def game_over():
-    screen.fill(BG) #colour of Screen 
+    screen.fill(BG)  # colour of Screen
     screen.blit(game_over_text, game_over_loc)
 
-# -------------------- Car and Frog Generation and Display ---------
+# ----------------- Movement Functions --------------------
+
+
+def wasd_movement(movement_event: pygame.event.Event):
+    global frog_starting_x, frog_starting_y
+    if movement_event.key == ord("w"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
+    if movement_event.key == ord("s"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
+    if movement_event.key == ord("a"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
+    if movement_event.key == ord("d"):
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+
+
+def arrow_movement(movement_event: pygame.event.Event):
+    global frog_starting_x, frog_starting_y
+    if movement_event.key == pygame.K_UP:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
+    if movement_event.key == pygame.K_DOWN:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
+    if movement_event.key == pygame.K_LEFT:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
+    if movement_event.key == pygame.K_RIGHT:
+        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+
+
+# -------------------- Car/Frog/Log Generation and Display ---------
 
 
 def draw_frog(x: int, y: int):
@@ -171,32 +204,6 @@ def car_collision(updated_cars: list):
                 dead = True
 
 
-
-def wasd_movement():
-    global frog_starting_x, frog_starting_y
-    if event.key == ord("w"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
-    if event.key == ord("s"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
-    if event.key == ord("a"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
-    if event.key == ord("d"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
-
-
-def arrow_movement():
-    global frog_starting_x, frog_starting_y
-    if event.key == pygame.K_UP:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
-    if event.key == pygame.K_DOWN:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
-    if event.key == pygame.K_LEFT:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
-    if event.key == pygame.K_RIGHT:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
-
-
-
 # -------------------- Fly generation and display -------------------- --
 
 
@@ -229,7 +236,7 @@ def fly_existing(flies_list: list):
             permanent = True
             fly_x_loc.remove(fly_width)
             if len(fly_x_loc) == 0:
-                fly_x_loc.append(1000000) # Spawns in an area the use cannot see
+                fly_x_loc.append(1000000)  # Spawns in an area the use cannot see
             lifespan = -1
 
         if not permanent:
@@ -270,6 +277,8 @@ def star_score():  # Adding Score if Star is hit
     global star, starting_score
     if frog_char_img == "hit":
         starting_score += 10  # Need to add proper variable
+# --------------------------------------------------
+# Game Set up
 
 
 pygame.init()
@@ -281,117 +290,13 @@ SIZE = (WIDTH, HEIGHT)
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 pygame.display.set_caption("Frogger")
+
+# --------------------------------
+# Initialize global variables
+
 fps = 60
 timer = 90
 fps_counter = 0
-
-# ---------------------------
-# font
-my_text_font = pygame.font.Font("Fonts/font.ttf", 50)  # made a font
-
-# --------------------------------
-# Play button
-button_image = pygame.image.load("Graphics/Home_screen/play_button.png")  # loading play button asset
-button_image = pygame.transform.scale(button_image, (500, 150))  # size of play button
-button_rect = button_image.get_rect(center=(WIDTH // 2, HEIGHT // 4))  # location of play button
-# ---------------------------------------------
-# main menu text
-menu_text = my_text_font.render("FROGGER", True, (255, 255, 255))
-text_rect = menu_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # location of main menu
-
-# ----------------------------------
-# options
-options_button = pygame.image.load("Graphics/Home_screen/Options_button.jpeg")  # loading option button setting
-options_button = pygame.transform.scale(options_button, (70, 70))  # size of button
-options_button_rect = options_button.get_rect(center=(750, 700))  # Set location of options button
-
-# ------------------------
-# Back button assets
-back_button = pygame.image.load("Graphics/Home_screen/back-button2.png")  # back button loading asset
-back_button = pygame.transform.scale(back_button, (100, 100))  # size of back button
-back_button_loc = back_button.get_rect(center=(100, 700))  # location of back button
-
-# -----------------------
-
-# ---------------------------
-# options label
-label_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
-label_text = label_font.render("Options", True, (255, 255, 255))  # Render the text surface
-label_rect = label_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # Position the text
-# --------------------------
-# Volume label
-volume_font = pygame.font.Font("Fonts/font.ttf", 30)  # volume label font
-volume_text = volume_font.render("Volume", True, (255, 255, 255))  # actual text
-volume_loc = volume_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))  # location of text
-# ---------------------------
-# Volume on button
-on_button = pygame.image.load("Graphics/Home_screen/Sound_On_button.png")  # loading sound on button
-on_button = pygame.transform.scale(on_button, (100, 100))  # size of button
-on_button_loc = on_button.get_rect(center=(WIDTH // 2 - 75, HEIGHT // 3))  # loc of button
-# -------------------------
-# Volume off button
-off_button = pygame.image.load("Graphics/Home_screen/Sound_off_button.png")  # loading sound on button
-off_button = pygame.transform.scale(off_button, (100, 100))  # size of button
-off_button_loc = off_button.get_rect(center=(WIDTH // 2 + 75, HEIGHT // 3))  # loc of button
-
-# -----------------------
-# Control label
-control_font = pygame.font.Font("Fonts/font.ttf", 30)  # volume label font
-control_text = control_font.render("Control settings", True, (255, 255, 255))  # actual text
-control_loc = control_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))  # location of text
-# -------------------
-# exit button
-exit_button = pygame.image.load("Graphics/Home_screen/Exit_game.png")  # loading sound on button
-exit_button = pygame.transform.scale(exit_button, (500, 150))  # size of button
-exit_button_loc = exit_button.get_rect(center=(WIDTH // 2, 700))  # location of button
-
-# ---------------------
-# arrow keys image
-arrow_button = pygame.image.load("Graphics/Home_screen/Arrow_keys_options.png")  # loading button asset
-arrow_button = pygame.transform.scale(arrow_button, (80, 80))  # size of button
-arrow_button_loc = arrow_button.get_rect(center=(WIDTH // 2 + 75, 450))
-# ---------------------
-# wasd keys image
-wasd_button = pygame.image.load("Graphics/Home_screen/wasd.png")  # loading button asset
-wasd_button = pygame.transform.scale(wasd_button, (80, 80))
-wasd_button_loc = wasd_button.get_rect(center=(WIDTH // 2 - 75, 450))
-# ----------------------
-# restart progress button
-restart_button = pygame.image.load("Graphics/Home_screen/Restart_button.png")
-restart_button = pygame.transform.scale(restart_button, (500, 150))  # size of button
-restart_button_loc = restart_button.get_rect(center=(WIDTH // 2, 700))  # loc of button
-# ------------------------------
-# shop sign
-shop_sign = pygame.image.load("Graphics/Home_screen/shop_button.png")
-shop_sign = pygame.transform.scale(shop_sign, (500, 250))  # size of button
-shop_button_loc = shop_sign.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-#--------------------------------------------------
-#Game Over Text 
-game_over_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
-game_over_text = game_over_font.render("Game_Over", True, (255, 255, 255))  # Render the text surface
-game_over_loc = game_over_text.get_rect(center=(400,100))  # Position the text
-# --------------------------------------------
-#Christmas frog skin 
-christmas_skin = pygame.image.load("christmas_frog_skin.png")
-christmas_skin = pygame.transform.scale(christmas_skin, (150,150))
-christmas_skin_loc = christmas_skin.get_rect(center = (WIDTH // 2, HEIGHT // 2))
-#------------------------
-# OG Skin
-OG_skin = pygame.image.load("Frog_char.png")
-OG_skin = pygame.transform.scale(OG_skin, (150,150))
-OG_skin_loc = OG_skin.get_rect(center =(150, HEIGHT//2))
-# ---------------------
-# Miles morales 
-miles_skin = pygame.image.load("miles_morales_frog.png")
-miles_skin = pygame.transform.scale(miles_skin, (150,150))
-miles_skin_loc = OG_skin.get_rect(center =(WIDTH-150, HEIGHT//2))
-# --------------------------
-# skins label
-skin_font = pygame.font.Font("font.ttf", 50) # volume label font 
-skin_text = skin_font.render("Skins", True, (255,255,255)) # actual text
-skin_loc = skin_text.get_rect(center = (WIDTH // 2, HEIGHT // 8)) # location of text
-
-# Initialize global variables
 
 live = 3
 frog_x_size = 50
@@ -405,6 +310,7 @@ car_pos = [650, 600, 550, 500, 450]  # Y coordinates the cars can spawn in
 cars = []
 car_spawn_timer = 0
 car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
+
 death_timer = 120
 dead = False
 death_pos = (0, 0)
@@ -423,24 +329,93 @@ BG = (20, 30, 50)
 movement = "WASD"
 
 # ---------------------------
-# Loading Game Asset
+# Fonts and Writing
+my_text_font = pygame.font.Font("Fonts/font.ttf", 50)  # made a font
+
+control_font = pygame.font.Font("Fonts/font.ttf", 30)  # volume label font
+control_text = control_font.render("Control settings", True, (255, 255, 255))  # actual text
+control_loc = control_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))  # location of text
+
+label_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
+label_text = label_font.render("Options", True, (255, 255, 255))  # Render the text surface
+label_rect = label_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # Position the text
+
+volume_font = pygame.font.Font("Fonts/font.ttf", 30)  # volume label font
+volume_text = volume_font.render("Volume", True, (255, 255, 255))  # actual text
+volume_loc = volume_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))  # location of text
+
+menu_text = my_text_font.render("FROGGER", True, (255, 255, 255))
+text_rect = menu_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # location of main menu
+
+# --------------------------------
+# Buttons
+button_image = pygame.image.load("Graphics/Home_screen/play_button.png")  # loading play button asset
+button_image = pygame.transform.scale(button_image, (500, 150))  # size of play button
+button_rect = button_image.get_rect(center=(WIDTH // 2, HEIGHT // 4))  # location of play button
+
+options_button = pygame.image.load("Graphics/Home_screen/Options_button.jpeg")  # loading option button setting
+options_button = pygame.transform.scale(options_button, (70, 70))  # size of button
+options_button_rect = options_button.get_rect(center=(750, 700))  # Set location of options button
+
+back_button = pygame.image.load("Graphics/Home_screen/back-button2.png")  # back button loading asset
+back_button = pygame.transform.scale(back_button, (100, 100))  # size of back button
+back_button_loc = back_button.get_rect(center=(100, 700))  # location of back button
+
+on_button = pygame.image.load("Graphics/Home_screen/Sound_On_button.png")  # loading sound on button
+on_button = pygame.transform.scale(on_button, (100, 100))  # size of button
+on_button_loc = on_button.get_rect(center=(WIDTH // 2 - 75, HEIGHT // 3))  # loc of button
+
+off_button = pygame.image.load("Graphics/Home_screen/Sound_off_button.png")  # loading sound on button
+off_button = pygame.transform.scale(off_button, (100, 100))  # size of button
+off_button_loc = off_button.get_rect(center=(WIDTH // 2 + 75, HEIGHT // 3))  # loc of button
+
+exit_button = pygame.image.load("Graphics/Home_screen/Exit_game.png")  # loading sound on button
+exit_button = pygame.transform.scale(exit_button, (500, 150))  # size of button
+exit_button_loc = exit_button.get_rect(center=(WIDTH // 2, 700))  # location of button
+
+arrow_button = pygame.image.load("Graphics/Home_screen/Arrow_keys_options.png")  # loading button asset
+arrow_button = pygame.transform.scale(arrow_button, (80, 80))  # size of button
+arrow_button_loc = arrow_button.get_rect(center=(WIDTH // 2 + 75, 450))
+
+wasd_button = pygame.image.load("Graphics/Home_screen/wasd.png")  # loading button asset
+wasd_button = pygame.transform.scale(wasd_button, (80, 80))
+wasd_button_loc = wasd_button.get_rect(center=(WIDTH // 2 - 75, 450))
+
+restart_button = pygame.image.load("Graphics/Home_screen/Restart_button.png")
+restart_button = pygame.transform.scale(restart_button, (500, 150))  # size of button
+restart_button_loc = restart_button.get_rect(center=(WIDTH // 2, 700))  # loc of button
+
+shop_sign = pygame.image.load("Graphics/Home_screen/shop_button.png")
+shop_sign = pygame.transform.scale(shop_sign, (500, 250))  # size of button
+shop_button_loc = shop_sign.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+game_over_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
+game_over_text = game_over_font.render("Game_Over", True, (255, 255, 255))  # Render the text surface
+game_over_loc = game_over_text.get_rect(center=(400, 100))  # Position the text
+
+skin_font = pygame.font.Font("Fonts/font.ttf", 50)  # volume label font
+skin_text = skin_font.render("Skins", True, (255, 255, 255))  # actual text
+skin_loc = skin_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # location of text
+
+# ---------------------------
+# Loading Game Assets
 frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
-frog_char_img_trans = pygame.transform.scale(frog_char_img, (frog_x_size, frog_y_size))
+frog_char_img_trans = pygame.transform.scale(frog_char_img, (box_size, box_size))
 
 car_1_img = pygame.image.load('Graphics/Cars and Logs/car_1.png')
-car_1_img_trans = pygame.transform.scale(car_1_img, (frog_x_size, frog_y_size))
+car_1_img_trans = pygame.transform.scale(car_1_img, (box_size, box_size))
 
 car_2_img = pygame.image.load('Graphics/Cars and Logs/car_2.png')
-car_2_img_trans = pygame.transform.scale(car_2_img, (frog_x_size, frog_y_size))
+car_2_img_trans = pygame.transform.scale(car_2_img, (box_size, box_size))
 
 car_3_img = pygame.image.load('Graphics/Cars and Logs/car_3.png')
-car_3_img_trans = pygame.transform.scale(car_3_img, (frog_x_size, frog_y_size))
+car_3_img_trans = pygame.transform.scale(car_3_img, (box_size, box_size))
 
 car_4_img = pygame.image.load('Graphics/Cars and Logs/car_4.png')
-car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
+car_4_img_trans = pygame.transform.scale(car_4_img, (box_size, box_size))
 
 car_5_img = pygame.image.load('Graphics/Cars and Logs/car_5.png')
-car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
+car_5_img_trans = pygame.transform.scale(car_5_img, (box_size * 2, box_size))
 
 log_1x2_img = pygame.image.load('Graphics/Cars and Logs/1X2 Log.png')
 log_1x2_img_trans = pygame.transform.scale(log_1x2_img, (box_size * 2, box_size))
@@ -452,7 +427,7 @@ log_1x4_img = pygame.image.load('Graphics/Cars and Logs/1X4 Log.png')
 log_1x4_img_trans = pygame.transform.scale(log_1x4_img, (box_size * 4, box_size))
 
 fly_img = pygame.image.load("Graphics/Game_assets/fly.png")
-fly_img_trans = pygame.transform.scale(fly_img, (50, 50))
+fly_img_trans = pygame.transform.scale(fly_img, (box_size, box_size))
 
 star_char_img = pygame.image.load('Graphics/Game_assets/star.png')
 star_char_img_trans = pygame.transform.scale(star_char_img, (box_size, box_size))
@@ -469,6 +444,18 @@ road_img_trans = pygame.transform.scale(road_img, (WIDTH, box_size * 6))
 water_img = pygame.image.load("Graphics/Game_assets/Water.png")
 water_img_trans = pygame.transform.scale(water_img, (WIDTH, box_size))
 
+christmas_skin = pygame.image.load("Graphics/Game_assets/christmas_frog_skin.png")
+christmas_skin = pygame.transform.scale(christmas_skin, (150, 150))
+christmas_skin_loc = christmas_skin.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+OG_skin = pygame.image.load("Graphics/Game_assets/Frog_char.png")
+OG_skin = pygame.transform.scale(OG_skin, (150, 150))
+OG_skin_loc = OG_skin.get_rect(center=(150, HEIGHT//2))
+
+miles_skin = pygame.image.load("Graphics/Game_assets/miles_morales_frog.png")
+miles_skin = pygame.transform.scale(miles_skin, (150, 150))
+miles_skin_loc = OG_skin.get_rect(center=(WIDTH-150, HEIGHT//2))
+
 current_screen = "main_menu"  # initial screen
 # ---------------------------
 # Game Loop
@@ -480,8 +467,10 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             # HANDLING THE FROG MOVEMENTS
-            wasd_movement()
-            arrow_movement()
+            if movement == "WASD":
+                wasd_movement(event)
+            elif movement == "arrows":
+                arrow_movement(event)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_location = pygame.mouse.get_pos()
             if current_screen == "main_menu":
@@ -507,11 +496,12 @@ while running:
                     volume_on = False
                     pygame.mixer.pause()
             elif current_screen == "shop_screen":
-                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
+                if back_button_loc.collidepoint(pygame.mouse.get_pos()):
                     current_screen = "main_menu"
 
-    # DRAWING
     screen.fill((0, 0, 0))
+
+    frame_counter += 1
 
     # SCREENS
     if current_screen == "main_menu":
@@ -523,14 +513,7 @@ while running:
     elif current_screen == "shop_screen":
         shop_screen()
 
-    if movement == "WASD":
-        wasd_movement()
-    elif movement == "arrows":
-        arrow_movement()
-
-
     pygame.display.flip()
-    frame_counter += 1
     clock.tick(fps)
     # ------------------------------------
 
