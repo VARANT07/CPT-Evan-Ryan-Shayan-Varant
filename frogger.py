@@ -88,6 +88,9 @@ def shop_screen():
     screen.fill(BG)
     screen.blit(back_button, back_button_loc)
 
+def game_over():
+    screen.fill(BG) #colour of Screen 
+    screen.blit(game_over_text, game_over_loc)
 
 # -------------------- Car and Frog Generation and Display ---------
 
@@ -355,6 +358,11 @@ restart_button_loc = restart_button.get_rect(center=(WIDTH // 2, 700))  # loc of
 shop_sign = pygame.image.load("Graphics/Home_screen/shop_button.png")
 shop_sign = pygame.transform.scale(shop_sign, (500, 250))  # size of button
 shop_button_loc = shop_sign.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+#--------------------------------------------------
+#Game Over Text 
+game_over_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
+game_over_text = game_over_font.render("Game_Over", True, (255, 255, 255))  # Render the text surface
+game_over_loc = game_over_text.get_rect(center=(400,100))  # Position the text
 
 # Initialize global variables
 
