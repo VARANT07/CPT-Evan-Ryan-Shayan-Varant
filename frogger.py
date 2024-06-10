@@ -227,7 +227,7 @@ def fly_existing(flies_list: list):
 
         if not permanent and fly_width == frog_starting_x and fly_height == frog_starting_y:
             permanent = True
-            fly_x_loc.remove(fly_WIDTH)
+            fly_x_loc.remove(fly_width)
             if len(fly_x_loc) == 0:
                 fly_x_loc.append(1000000) # Spawns in an area the use cannot see
             lifespan = -1
@@ -420,24 +420,26 @@ starting_score = 0
 
 BG = (20, 30, 50)
 
+movement = "WASD"
+
 # ---------------------------
 # Loading Game Asset
 frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
 frog_char_img_trans = pygame.transform.scale(frog_char_img, (frog_x_size, frog_y_size))
 
-car_1_img = pygame.image.load('Graphics/Cars/car_1.png')
+car_1_img = pygame.image.load('Graphics/Cars and Logs/car_1.png')
 car_1_img_trans = pygame.transform.scale(car_1_img, (frog_x_size, frog_y_size))
 
-car_2_img = pygame.image.load('Graphics/Cars/car_2.png')
+car_2_img = pygame.image.load('Graphics/Cars and Logs/car_2.png')
 car_2_img_trans = pygame.transform.scale(car_2_img, (frog_x_size, frog_y_size))
 
-car_3_img = pygame.image.load('Graphics/Cars/car_3.png')
+car_3_img = pygame.image.load('Graphics/Cars and Logs/car_3.png')
 car_3_img_trans = pygame.transform.scale(car_3_img, (frog_x_size, frog_y_size))
 
-car_4_img = pygame.image.load('Graphics/Cars/car_4.png')
+car_4_img = pygame.image.load('Graphics/Cars and Logs/car_4.png')
 car_4_img_trans = pygame.transform.scale(car_4_img, (frog_x_size, frog_y_size))
 
-car_5_img = pygame.image.load('Graphics/Cars/car_5.png')
+car_5_img = pygame.image.load('Graphics/Cars and Logs/car_5.png')
 car_5_img_trans = pygame.transform.scale(car_5_img, (frog_x_size * 2, frog_y_size))
 
 log_1x2_img = pygame.image.load('Graphics/Cars and Logs/1X2 Log.png')
@@ -482,9 +484,9 @@ while running:
             arrow_movement()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_location = pygame.mouse.get_pos()
-           if current_screen == "main_menu":
+            if current_screen == "main_menu":
                 if button_rect.collidepoint(pygame.mouse.get_pos()):
-                    current_screen = "game"
+                    current_screen = "game_screen"
                 elif options_button_rect.collidepoint(pygame.mouse.get_pos()):
                     current_screen = "options"
                 if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
@@ -494,7 +496,7 @@ while running:
             elif current_screen == "options":
                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
                     current_screen = "main_menu"
-                elif  arrow_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif arrow_button_loc.collidepoint(pygame.mouse.get_pos()):
                     movement = "arrows"
                 elif wasd_button_loc.collidepoint(pygame.mouse.get_pos()):
                     movement = "WASD"
