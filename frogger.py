@@ -483,6 +483,7 @@ while running:
         shop_screen()
 
     pygame.display.flip()
+    frame_counter += 1
     clock.tick(fps)
     # ------------------------------------
 
