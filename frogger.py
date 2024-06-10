@@ -494,6 +494,10 @@ while running:
             elif current_screen == "options":
                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
                     current_screen = "main_menu"
+                elif  arrow_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    movement = "arrows"
+                elif wasd_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    movement = "WASD"
                 elif on_button_loc.collidepoint(pygame.mouse.get_pos()):
                     volume_on = True
                     pygame.mixer.unpause()
@@ -516,6 +520,12 @@ while running:
         options_menu()
     elif current_screen == "shop_screen":
         shop_screen()
+
+    if movement == "WASD":
+        wasd_movement()
+    elif movement == "arrows":
+        arrow_movement()
+
 
     pygame.display.flip()
     frame_counter += 1
