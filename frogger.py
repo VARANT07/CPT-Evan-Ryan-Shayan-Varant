@@ -227,6 +227,9 @@ def fly_existing(flies_list: list):
 
         if not permanent and fly_width == frog_starting_x and fly_height == frog_starting_y:
             permanent = True
+            fly_x_loc.remove(fly_WIDTH)
+            if len(fly_x_loc) == 0:
+                fly_x_loc.append(1000000) # Spawns in an area the use cannot see
             lifespan = -1
 
         if not permanent:
