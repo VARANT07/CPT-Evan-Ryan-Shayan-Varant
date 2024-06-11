@@ -229,6 +229,7 @@ def erase_fly(position):
 
 
 def fly_existing(flies_list: list):
+    global starting_score
     update_flies = []
 
     for fly_char in flies_list:
@@ -240,6 +241,7 @@ def fly_existing(flies_list: list):
             if len(fly_x_loc) == 0:
                 fly_x_loc.append(1000000)  # Spawns in an area the use cannot see
             lifespan = -1
+            starting_score += 10
 
         if not permanent:
             lifespan -= 1
