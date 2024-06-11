@@ -134,7 +134,8 @@ def arrow_movement(movement_event: pygame.event.Event):
 
 
 def draw_frog(x: int, y: int):
-    screen.blit(frog_char_img_trans, (x, y))
+    if current_frog == "Og_frog":
+        screen.blit(frog_char_img_trans, (x, y))
 
 
 def frog_movement(frog_x: int, frog_y: int, direction: str) -> tuple:
@@ -509,7 +510,7 @@ while running:
                  elif miles_skin_loc.collidepoint(pygame.mouse.get_pos()):
                      current_frog = "miles_skin"
                  elif christmas_skin_loc.collidepoint(pygame.mouse.get_pos()):
-                     current_frog = "christmas _skin"
+                     current_frog = "christmas_skin"
 
     screen.fill((0, 0, 0))
 
