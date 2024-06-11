@@ -90,6 +90,11 @@ def options_menu():
     screen.blit(leader_button,leader_button_loc)
     screen.blit(leaderlabel,leader_board_loc)
 
+def leaderboard():
+    screen.fill(BG)
+    screen.blit(back_button,back_button_loc)
+
+
 
 
 def shop_screen():
@@ -529,6 +534,8 @@ while running:
                 elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
                     volume_on = False
                     pygame.mixer.pause()
+                elif leader_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    current_screen = "leaderboard"
             elif current_screen == "shop_screen":
                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
                     current_screen = "main_menu"
@@ -551,6 +558,9 @@ while running:
         options_menu()
     elif current_screen == "shop_screen":
         shop_screen()
+    elif current_screen == "leaderboard":
+        leaderboard()
+      
    # control options 
     if movement == "WASD":
         wasd_movement()
