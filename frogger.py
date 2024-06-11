@@ -456,7 +456,11 @@ OG_skin_loc = OG_skin.get_rect(center=(150, HEIGHT//2))
 miles_skin = pygame.image.load("Graphics/Game_assets/miles_morales_frog.png")
 miles_skin = pygame.transform.scale(miles_skin, (150, 150))
 miles_skin_loc = OG_skin.get_rect(center=(WIDTH-150, HEIGHT//2))
-
+# ---------------------------------------
+# load music 
+pygame.mixer.init()
+sound = pygame.mixer.Sound("339124__zagi2__gaming-arcade-loop.wav")
+sound.play(-1)
 current_screen = "main_menu"  # initial screen
 # ---------------------------
 # Game Loop
