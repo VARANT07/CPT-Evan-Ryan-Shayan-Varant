@@ -20,7 +20,8 @@ W: Move up
 A: Move left
 S: Move down
 D: Move right
-Arrow Keys:
+
+ARROW Keys:
 
 Up Arrow: Move up
 Left Arrow: Move left
@@ -34,3 +35,6 @@ Graphics and Sound: Enjoyable graphics and sound effects to enhance the gaming e
 
 
 Enjoy playing our Frogger game! If you have any questions or feedback, please feel free to open an issue on our GitHub repository.
+
+AND!!!!!
+MOST IMPORTANTLY HAVE FUN!!
