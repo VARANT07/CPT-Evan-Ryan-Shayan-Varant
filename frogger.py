@@ -93,6 +93,8 @@ def options_menu():
 def leaderboard():
     screen.fill(BG)
     screen.blit(back_button,back_button_loc)
+    screen.blit(leaderlabel_options,leader_board_options_loc)
+
 
 
 
@@ -415,6 +417,11 @@ leader_button_loc = leader_button.get_rect(center = (WIDTH // 2, 700)) # loc of 
 leader_font = pygame.font.Font("font.ttf", 50)
 leaderlabel= leader_font.render("Leaderboard", True, (255,255,255))
 leader_board_loc = leaderlabel.get_rect(center = (WIDTH//2, 700))
+
+# leader label in the leaderboard screen
+leader_font_options = pygame.font.Font("font.ttf", 50)
+leaderlabel_options= leader_font_options.render("Leaderboard", True, (255,255,255))
+leader_board_options_loc = leaderlabel.get_rect(center = (WIDTH//2, HEIGHT // 8))
 
 #Play Again Button 
 play_again_button = pygame.image.load("")  # loading play again button asset (Need to add an image)
