@@ -87,7 +87,6 @@ def options_menu():
     screen.blit(control_text, control_loc)
     screen.blit(arrow_button, arrow_button_loc)
     screen.blit(wasd_button, wasd_button_loc)
-    screen.blit(restart_button, restart_button_loc)
 
 
 def shop_screen():
