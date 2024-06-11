@@ -88,6 +88,8 @@ def options_menu():
     screen.blit(arrow_button, arrow_button_loc)
     screen.blit(wasd_button, wasd_button_loc)
     screen.blit(leader_button,leader_button_loc)
+    screen.blit(leaderlabel,leader_board_loc)
+
 
 
 def shop_screen():
@@ -392,7 +394,7 @@ restart_button = pygame.transform.scale(restart_button, (500, 150))  # size of b
 restart_button_loc = restart_button.get_rect(center=(WIDTH // 2, 700))  # loc of button
 
 shop_sign = pygame.image.load("Graphics/Home_screen/shop_button.png")
-shop_sign = pygame.transform.scale(shop_sign, (500, 250))  # size of button
+shop_sign = pygame.transform.scale(shop_sign, (500, 300))  # size of button
 shop_button_loc = shop_sign.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
 game_over_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
@@ -401,8 +403,13 @@ game_over_loc = game_over_text.get_rect(center=(400, 100))  # Position the text
 
 # leader board
 leader_button = pygame.image.load("Leader_board.png")
-leader_button = pygame.transform.scale(leader_button, (500, 300)) # size of button 
+leader_button = pygame.transform.scale(leader_button, (500, 400)) # size of button 
 leader_button_loc = leader_button.get_rect(center = (WIDTH // 2, 700)) # loc of button
+
+# leader label
+leader_font = pygame.font.Font("font.ttf", 50)
+leaderlabel= leader_font.render("Leaderboard", True, (255,255,255))
+leader_board_loc = leaderlabel.get_rect(center = (WIDTH//2, 700))
 
 #Play Again Button 
 play_again_button = pygame.image.load("")  # loading play again button asset (Need to add an image)
