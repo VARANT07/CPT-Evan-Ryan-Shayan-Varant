@@ -462,6 +462,7 @@ pygame.mixer.init()
 sound = pygame.mixer.Sound("339124__zagi2__gaming-arcade-loop.wav")
 sound.play(-1)
 current_screen = "main_menu"  # initial screen
+current_frog = "Og_skin" # initial skin
 # ---------------------------
 # Game Loop
 running = True
@@ -503,6 +504,12 @@ while running:
             elif current_screen == "shop_screen":
                 if back_button_loc.collidepoint(pygame.mouse.get_pos()):
                     current_screen = "main_menu"
+                elif OG_skin_loc.collidepoint(pygame.mouse.get_pos()):
+                     current_frog = "Og_skin"
+                 elif miles_skin_loc.collidepoint(pygame.mouse.get_pos()):
+                     current_frog = "miles_skin"
+                 elif christmas_skin_loc.collidepoint(pygame.mouse.get_pos()):
+                     current_frog = "christmas _skin"
 
     screen.fill((0, 0, 0))
 
