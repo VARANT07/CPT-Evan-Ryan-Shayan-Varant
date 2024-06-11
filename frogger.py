@@ -466,6 +466,8 @@ sound = pygame.mixer.Sound("339124__zagi2__gaming-arcade-loop.wav")
 sound.play(-1)
 current_screen = "main_menu"  # initial screen
 current_frog = "Og_skin" # initial skin
+movement = "WASD" # initial movement settings 
+
 # ---------------------------
 # Game Loop
 running = True
@@ -526,6 +528,11 @@ while running:
         options_menu()
     elif current_screen == "shop_screen":
         shop_screen()
+   # control options 
+    if movement == "WASD":
+        wasd_movement()
+    elif movement == "arrows":
+        arrow_movement()
 
     pygame.display.flip()
     clock.tick(fps)
