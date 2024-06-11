@@ -102,6 +102,8 @@ def shop_screen():
 def game_over():
     screen.fill(BG)  # colour of Screen
     screen.blit(game_over_text, game_over_loc)
+    screen.blit(play_again_button_image,play_again_rect)
+    screen.blit(main_menu_button_image,main_menu_rect)
 
 # ----------------- Movement Functions --------------------
 
@@ -396,6 +398,15 @@ shop_button_loc = shop_sign.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 game_over_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the label
 game_over_text = game_over_font.render("Game_Over", True, (255, 255, 255))  # Render the text surface
 game_over_loc = game_over_text.get_rect(center=(400, 100))  # Position the text
+
+#Play Again Button 
+play_again_button = pygame.image.load("")  # loading play again button asset (Need to add an image)
+play_again_button_image = pygame.transform.scale(play_again_button, (250, 75))  # size of play button
+play_again_rect = play_again_button_image.get_rect(center =(400,300))  # location of play button
+#Main Menu Button 
+main_menu_button = pygame.image.load("")  # loading play again button asset (Need to add an image)
+main_menu_button_image = pygame.transform.scale(main_menu_button, (250, 75))  # size of play button
+main_menu_rect = main_menu_button_image.get_rect(center =(400,400))  # location of play button
 
 skin_font = pygame.font.Font("Fonts/font.ttf", 50)  # volume label font
 skin_text = skin_font.render("Skins", True, (255, 255, 255))  # actual text
