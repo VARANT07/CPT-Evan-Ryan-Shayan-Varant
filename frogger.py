@@ -147,6 +147,10 @@ def arrow_movement(movement_event: pygame.event.Event):
 def draw_frog(x: int, y: int):
     if current_frog == "Og_frog":
         screen.blit(frog_char_img_trans, (x, y))
+    elif current_frog == "miles_skin":
+        screen.blit(miles_skin, (x, y))
+    elif current_frog == "christmas_skin":
+        screen.blit(christmas_skin, (x, y))
 
 
 def frog_movement(frog_x: int, frog_y: int, direction: str) -> tuple:
@@ -420,7 +424,7 @@ leader_board_loc = leaderlabel.get_rect(center = (WIDTH//2, 700))
 
 # leader label in the leaderboard screen
 leader_font_options = pygame.font.Font("font.ttf", 50)
-leaderlabel_options= leader_font_options.render("Leaderboard", True, (255,255,255))
+leaderlabel_options = leader_font_options.render("Leaderboard", True, (255,255,255))
 leader_board_options_loc = leaderlabel.get_rect(center = (WIDTH//2, HEIGHT // 8))
 
 #Play Again Button 
