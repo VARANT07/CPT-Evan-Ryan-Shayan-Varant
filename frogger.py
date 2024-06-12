@@ -305,7 +305,7 @@ def fly_existing(flies_list: list):
     for fly_char in flies_list:
         fly_width, fly_height, lifespan, permanent = fly_char
 
-        if not permanent and fly_width == frog_starting_x and fly_height == frog_starting_y:
+        if not permanent and frog_starting_x - 25 <= fly_width <= frog_starting_x + 25 and fly_height == frog_starting_y:
             permanent = True
             fly_x_loc.remove(fly_width)
             if len(fly_x_loc) == 0:
