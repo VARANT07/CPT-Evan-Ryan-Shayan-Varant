@@ -654,12 +654,6 @@ while running:
     elif current_screen == "leaderboard":
         leaderboard()
       
-   # control options 
-    if movement == "WASD":
-        wasd_movement()
-    elif movement == "arrows":
-        arrow_movement()
-
     pygame.display.flip()
     clock.tick(fps)
     # ------------------------------------
