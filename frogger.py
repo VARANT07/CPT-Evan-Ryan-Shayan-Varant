@@ -74,6 +74,7 @@ def game_screen():
     countdown(timer)
 
     car_collision(cars)
+    water_collision(logs)
 
     lives()
 
@@ -241,6 +242,7 @@ def generate_log() -> tuple:
     log_y_pos = random.choice(log_pos)
     log_pos.remove(log_y_pos)  # Removing it and then adding it back at the end of the loop will fix the issue of multiple logs spawning at once in the same pos
     size = random.choice(log_sizes)
+    random.shuffle(log_sizes)  # Fixes a weird glitch where it wont spawn on certain locations
     if log_y_pos % 100 == 0:
         direction = "right"
         log_x_pos = 0
@@ -275,6 +277,25 @@ def update_logs(logs_list: list):
 
     return updated_logs
 
+
+def water_collision(updated_logs: list):
+    global frog_starting_x, frog_starting_y, dead, death_pos
+    if not dead and 150 <= frog_starting_y <= 350:
+        on_log = False
+        for log in updated_logs:
+            x_pos, y_pos, direction, size = log
+            if frog_starting_y == y_pos and x_pos < frog_starting_x < x_pos + (50*size):
+                on_log = True
+                if direction == "right":
+                    frog_starting_x += 1.5
+                elif direction == "left":
+                    frog_starting_x -= 1
+                break
+
+        if not on_log:
+            dead = True
+            death_pos = frog_starting_x, frog_starting_y
+            
 
 # -------------------- Fly generation and display -------------------- --
 
@@ -385,11 +406,11 @@ cars = []
 car_spawn_timer = 0
 car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
 
-log_pos = [350, 300, 250, 200, 150]
+log_pos = [350, 350, 300, 250, 200, 150]
 logs = []
 log_spawn_timer = 0
 log_spawn_reset = 10
-log_sizes = [2, 3, 4]  # Sizes are dependent on 1xSize, for ex 2 is 1X2, 3 is 1X3
+log_sizes = [2, 3, 3, 3, 4, 4]  # Sizes are dependent on 1xSize, for ex 2 is 1X2, 3 is 1X3, higher chance for bigger logs to make game easier
 
 death_timer = 120
 dead = False
