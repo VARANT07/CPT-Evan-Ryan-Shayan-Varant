@@ -161,12 +161,12 @@ def arrow_movement(movement_event: pygame.event.Event):
 
 
 def draw_frog(x: int, y: int):
-    if current_frog == "Og_frog":
+    if current_frog == "og_skin":
         screen.blit(frog_char_img_trans, (x, y))
     elif current_frog == "miles_skin":
-        screen.blit(miles_skin, (x, y))
+        screen.blit(miles_skin_in_game, (x, y))
     elif current_frog == "christmas_skin":
-        screen.blit(christmas_skin, (x, y))
+        screen.blit(christmas_skin_in_game, (x, y))
 
 
 def frog_movement(frog_x: int, frog_y: int, direction: str) -> tuple:
@@ -571,6 +571,7 @@ water_img_trans = pygame.transform.scale(water_img, (WIDTH, box_size))
 
 christmas_skin = pygame.image.load("Graphics/Game_assets/christmas_frog_skin.png")
 christmas_skin = pygame.transform.scale(christmas_skin, (150, 150))
+christmas_skin_in_game = pygame.transform.scale(christmas_skin, (box_size, box_size))
 christmas_skin_loc = christmas_skin.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
 OG_skin = pygame.image.load("Graphics/Game_assets/Frog_char.png")
@@ -579,14 +580,16 @@ OG_skin_loc = OG_skin.get_rect(center=(150, HEIGHT//2))
 
 miles_skin = pygame.image.load("Graphics/Game_assets/miles_morales_frog.png")
 miles_skin = pygame.transform.scale(miles_skin, (150, 150))
+miles_skin_in_game = pygame.transform.scale(miles_skin, (box_size, box_size))
 miles_skin_loc = OG_skin.get_rect(center=(WIDTH-150, HEIGHT//2))
 # ---------------------------------------
 # load music 
 pygame.mixer.init()
-sound = pygame.mixer.Sound("339124__zagi2__gaming-arcade-loop.wav")
+sound = pygame.mixer.Sound("Sounds/339124__zagi2__gaming-arcade-loop.wav")
 sound.play(-1)
-current_screen = "main_menu"  # initial screen
-current_frog = "Og_skin" # initial skin
+current_frog = "og_skin"  # initial skin
+
+current_screen = "main_menu"
 
 # ---------------------------
 # Game Loop
