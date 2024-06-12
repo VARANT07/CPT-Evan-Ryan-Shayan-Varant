@@ -16,7 +16,7 @@ def main_menu():
 
 def game_screen():
     global car_spawn_timer, cars, fps_counter, timer, fly_counter, frames_per_fly_spawn, flies, death_timer, dead, \
-        live, current_screen, frog_starting_x, frog_starting_y, death_pos, frame_counter
+        live, current_screen, frog_starting_x, frog_starting_y, death_pos, frame_counter, log_spawn_timer, logs
     screen.fill((0, 0, 255))
     frame_counter += 1
 
