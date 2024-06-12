@@ -587,7 +587,6 @@ sound = pygame.mixer.Sound("339124__zagi2__gaming-arcade-loop.wav")
 sound.play(-1)
 current_screen = "main_menu"  # initial screen
 current_frog = "Og_skin" # initial skin
-movement = "WASD" # initial movement settings 
 
 # ---------------------------
 # Game Loop
