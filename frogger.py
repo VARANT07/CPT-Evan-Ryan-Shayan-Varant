@@ -39,6 +39,21 @@ def game_screen():
 
     draw_car(cars)
 
+    # LOG SPAWNING
+    if log_spawn_timer > 0:
+        log_spawn_timer -= 0.5
+
+    if log_spawn_timer <= 0:
+        log_spawn = random.randint(1, 50)
+        if log_spawn == 1:
+            logs.append(generate_log())
+            log_spawn_timer = log_spawn_reset
+
+    logs = update_logs(logs)
+
+    draw_log(logs)
+
+    # FLY SPAWNING
     if frame_counter % frames_per_fly_spawn == 0:
         fly_pos = generate_fly_pos(fly_x_loc)
         fly_counter += 1
@@ -166,17 +181,18 @@ def frog_movement(frog_x: int, frog_y: int, direction: str) -> tuple:
 
 
 def generate_car() -> tuple:  # Generates a random car
-    y_pos = random.choice(car_pos)
-
-    if y_pos == 600 or y_pos == 500:
+    car_y_pos = random.choice(car_pos)
+    car_pos.remove(car_y_pos)
+    if car_y_pos == 600 or car_y_pos == 500:
         car_direction = 1  # come in from right
-        x_pos = 0
+        car_x_pos = 0
     else:
         car_direction = 0  # come in from left
-        x_pos = WIDTH
+        car_x_pos = WIDTH
     speed = random.randint(15, 17) / 10  # Speed ranges from 1.5-1.7
+    car_pos.append(car_y_pos)
 
-    return x_pos, y_pos, speed, car_direction  # Returns a tuple with all the information needed to draw a car
+    return car_x_pos, car_y_pos, speed, car_direction  # Returns a tuple with all the information needed to draw a car
 
 
 def draw_car(car: list):  # Draws the cars on screen
@@ -219,6 +235,45 @@ def car_collision(updated_cars: list):
             if frog_starting_y == y_pos and x_pos - 50 < frog_starting_x < x_pos + 50:
                 death_pos = frog_starting_x, frog_starting_y
                 dead = True
+
+
+def generate_log() -> tuple:
+    log_y_pos = random.choice(log_pos)
+    log_pos.remove(log_y_pos)  # Removing it and then adding it back at the end of the loop will fix the issue of multiple logs spawning at once in the same pos
+    size = random.choice(log_sizes)
+    if log_y_pos % 100 == 0:
+        direction = "right"
+        log_x_pos = 0
+    else:
+        direction = "left"
+        log_x_pos = WIDTH
+    log_pos.append(log_y_pos)
+    return log_x_pos, log_y_pos, direction, size
+
+
+def draw_log(logs_list: list):
+    for log in logs_list:
+        log_x_pos, log_y_pos, direction, size = log
+        if size == 2:
+            screen.blit(log_1x2_img_trans, (log_x_pos, log_y_pos))
+        elif size == 3:
+            screen.blit(log_1x3_img_trans, (log_x_pos, log_y_pos))
+        elif size == 4:
+            screen.blit(log_1x4_img_trans, (log_x_pos, log_y_pos))
+
+
+def update_logs(logs_list: list):
+    updated_logs = []
+    for log in logs_list:
+        log_x_pos, log_y_pos, direction, size = log
+        if direction == "right":
+            log_x_pos += 1.5  # Make it a bit faster so the game doesn't look robotic
+        elif direction == "left":
+            log_x_pos -= 1
+        if 0 <= log_x_pos <= WIDTH:
+            updated_logs.append((log_x_pos, log_y_pos, direction, size))
+
+    return updated_logs
 
 
 # -------------------- Fly generation and display -------------------- --
@@ -329,6 +384,12 @@ car_pos = [650, 600, 550, 500, 450]  # Y coordinates the cars can spawn in
 cars = []
 car_spawn_timer = 0
 car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
+
+log_pos = [350, 300, 250, 200, 150]
+logs = []
+log_spawn_timer = 0
+log_spawn_reset = 10
+log_sizes = [2, 3, 4]  # Sizes are dependent on 1xSize, for ex 2 is 1X2, 3 is 1X3
 
 death_timer = 120
 dead = False
