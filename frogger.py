@@ -129,6 +129,17 @@ def game_over():
     screen.blit(game_over_text, game_over_loc)
     screen.blit(play_again_button_image,play_again_rect)
     screen.blit(main_menu_button_image,main_menu_rect)
+def pause():
+    screen.fill((BG))
+    screen.blit(volume_text, volume_loc)
+    screen.blit(back_button, back_button_loc)
+    screen.blit(label_text, label_rect)
+    screen.blit(on_button, on_button_loc)
+    screen.blit(off_button, off_button_loc)
+    screen.blit(control_text, control_loc)
+    screen.blit(arrow_button, arrow_button_loc)
+    screen.blit(wasd_button, wasd_button_loc)
+
 
 # ----------------- Movement Functions --------------------
 
@@ -522,6 +533,11 @@ skin_font = pygame.font.Font("Fonts/font.ttf", 50)  # volume label font
 skin_text = skin_font.render("Skins", True, (255, 255, 255))  # actual text
 skin_loc = skin_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # location of text
 
+# pause menu
+pause_button = pygame.image.load("Options_button_pixleart.jpeg")#loading options button settings
+pause_button = pygame.transform.scale(pause_button, (70, 70))#size of button
+pause_button_rect = options_button.get_rect(center=(750,100))  # Set location of options button
+
 # ---------------------------
 # Loading Game Assets
 frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
@@ -640,6 +656,22 @@ while running:
                      current_frog = "miles_skin"
                  elif christmas_skin_loc.collidepoint(pygame.mouse.get_pos()):
                      current_frog = "christmas_skin"
+                  elif current_screen == "game":
+                if pause_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    current_screen = "pause"
+            elif current_screen == "pause":
+                if back_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    current_screen = "game"
+                elif on_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    volume_on = True
+                    pygame.mixer.unpause()
+                elif arrow_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    movement = "arrows"
+                elif wasd_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    movement = "WASD"
+                elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    volume_on = False
+                    pygame.mixer.pause()
 
     screen.fill((0, 0, 0))
 
@@ -655,6 +687,8 @@ while running:
         shop_screen()
     elif current_screen == "leaderboard":
         leaderboard()
+    elif current_screen == "pause":
+        pause()
       
     pygame.display.flip()
     clock.tick(fps)
