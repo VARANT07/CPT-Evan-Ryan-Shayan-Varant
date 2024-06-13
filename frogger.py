@@ -122,6 +122,8 @@ def shop_screen():
     screen.blit(OG_skin, OG_skin_loc)
     screen.blit(miles_skin, miles_skin_loc)
     screen.blit(skin_text, skin_loc)
+    screen.blit(double_button,double_button_loc)
+
 
 
 def game_over():
@@ -543,6 +545,11 @@ pause_button_rect = options_button.get_rect(center=(750,100))  # Set location of
 restart_button = pygame.image.load("Restart_button.png")
 restart_button = pygame.transform.scale(restart_button, 300,100)
 restart_button_loc = restart_button.get_rect(center = (WIDTH/2,700))
+
+# double xp
+double_button = pygame.image.load("double_xp.png")
+double_button = pygame.transform.scale(double_button, (100,100))
+double_button_loc=double_button.get_rect(center = (WIDTH // 2, 600))
 # ---------------------------
 # Loading Game Assets
 frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
