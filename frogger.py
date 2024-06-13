@@ -1,6 +1,7 @@
 # Frogger
 import pygame
 import random
+import json
 
 
 # ------------------ Screen Functions -----------------
@@ -24,6 +25,7 @@ def game_screen():
 
     screen.blit(ground_img_trans, (0, HEIGHT / 2))
     screen.blit(ground_img_trans, (0, HEIGHT - 100))
+    screen.blit(pause_button, pause_button_rect)
 
     # CAR SPAWNING
     if car_spawn_timer > 0:
@@ -103,34 +105,54 @@ def options_menu():
     screen.blit(control_text, control_loc)
     screen.blit(arrow_button, arrow_button_loc)
     screen.blit(wasd_button, wasd_button_loc)
-    screen.blit(leader_button,leader_button_loc)
-    screen.blit(leaderlabel,leader_board_loc)
+    screen.blit(leader_button, leader_button_loc)
+    screen.blit(leaderlabel, leader_board_loc)
+
 
 def leaderboard():
     screen.fill(BG)
-    screen.blit(back_button,back_button_loc)
-    screen.blit(leaderlabel_options,leader_board_options_loc)
+    screen.blit(back_button, back_button_loc)
+    screen.blit(leaderlabel_options, leader_board_options_loc)
 
 
-
-
-
-def shop_screen():
+def shop_screen(coins: int):
     screen.fill(BG)
+    my_font = pygame.font.SysFont("monospace", 50)
+    coin_score_text = my_font.render(f" :{data_for_save['coins']}", 1, (255, 255, 0))
+    christmas_price = my_font.render(f" :{10}", 1, (255, 255, 0))
+    miles_price = my_font.render(f" :{25}", 1, (255, 255, 0))
+    double_points_price = my_font.render(f" :{5}", 1, (255, 255, 0))
+
     screen.blit(back_button, back_button_loc)
     screen.blit(christmas_skin, christmas_skin_loc)
     screen.blit(OG_skin, OG_skin_loc)
     screen.blit(miles_skin, miles_skin_loc)
     screen.blit(skin_text, skin_loc)
-    screen.blit(double_button,double_button_loc)
+    screen.blit(double_button, double_button_loc)
 
+    screen.blit(coin_img_trans, (620, 30))
+    screen.blit(coin_score_text, (640, 30))
+
+    screen.blit(coin_img_trans, (325, 475))
+    screen.blit(christmas_price, (345, 475))
+
+    screen.blit(coin_img_trans, (330, 650))
+    screen.blit(double_points_price, (350, 650))
+
+    screen.blit(coin_img_trans, (575, 475))
+    screen.blit(miles_price, (597, 475))
 
 
 def game_over():
+    global starting_score
     screen.fill(BG)  # colour of Screen
     screen.blit(game_over_text, game_over_loc)
-    screen.blit(play_again_button_image,play_again_rect)
-    screen.blit(main_menu_button_image,main_menu_rect)
+    screen.blit(main_menu_button_image, main_menu_rect)
+    my_font = pygame.font.SysFont("monospace", 40)
+    score_text = my_font.render(f"{starting_score} Score  =  {starting_score//10} coins", 1, (255, 255, 255))
+    screen.blit(score_text, (175, 500))
+
+
 def pause():
     screen.fill((BG))
     screen.blit(volume_text, volume_loc)
@@ -141,8 +163,7 @@ def pause():
     screen.blit(control_text, control_loc)
     screen.blit(arrow_button, arrow_button_loc)
     screen.blit(wasd_button, wasd_button_loc)
-    screen.blit(restart_button,restart_button_loc)
-
+    screen.blit(restart_button, restart_button_loc)
 
 
 # ----------------- Movement Functions --------------------
@@ -255,7 +276,8 @@ def car_collision(updated_cars: list):
 
 def generate_log() -> tuple:
     log_y_pos = random.choice(log_pos)
-    log_pos.remove(log_y_pos)  # Removing it and then adding it back at the end of the loop will fix the issue of multiple logs spawning at once in the same pos
+    log_pos.remove(
+        log_y_pos)  # Removing it and then adding it back at the end of the loop will fix the issue of multiple logs spawning at once in the same pos
     size = random.choice(log_sizes)
     random.shuffle(log_sizes)  # Fixes a weird glitch where it wont spawn on certain locations
     if log_y_pos % 100 == 0:
@@ -299,7 +321,7 @@ def water_collision(updated_logs: list):
         on_log = False
         for log in updated_logs:
             x_pos, y_pos, direction, size = log
-            if frog_starting_y == y_pos and x_pos < frog_starting_x < x_pos + (50*size):
+            if frog_starting_y == y_pos and x_pos < frog_starting_x < x_pos + (50 * size):
                 on_log = True
                 if direction == "right":
                     frog_starting_x += 1.5
@@ -310,7 +332,7 @@ def water_collision(updated_logs: list):
         if not on_log:
             dead = True
             death_pos = frog_starting_x, frog_starting_y
-            
+
 
 # -------------------- Fly generation and display -------------------- --
 
@@ -387,6 +409,8 @@ def star_score():  # Adding Score if Star is hit
     global star, starting_score
     if frog_char_img == "hit":
         starting_score += 10  # Need to add proper variable
+
+
 # --------------------------------------------------
 # Game Set up
 
@@ -425,7 +449,8 @@ log_pos = [350, 350, 300, 250, 200, 150]
 logs = []
 log_spawn_timer = 0
 log_spawn_reset = 10
-log_sizes = [2, 3, 3, 3, 4, 4]  # Sizes are dependent on 1xSize, for ex 2 is 1X2, 3 is 1X3, higher chance for bigger logs to make game easier
+log_sizes = [2, 3, 3, 3, 4,
+             4]  # Sizes are dependent on 1xSize, for ex 2 is 1X2, 3 is 1X3, higher chance for bigger logs to make game easier
 
 death_timer = 120
 dead = False
@@ -444,6 +469,9 @@ BG = (20, 30, 50)
 
 movement = "WASD"
 
+coins_received = False
+
+data_for_save = {"high_score": 0, "coins": 999, "miles": False, "christmas": False}
 # ---------------------------
 # Fonts and Writing
 my_text_font = pygame.font.Font("Fonts/font.ttf", 50)  # made a font
@@ -509,47 +537,40 @@ game_over_font = pygame.font.Font("Fonts/font.ttf", 36)  # Define font for the l
 game_over_text = game_over_font.render("Game_Over", True, (255, 255, 255))  # Render the text surface
 game_over_loc = game_over_text.get_rect(center=(400, 100))  # Position the text
 
-# leader board
-leader_button = pygame.image.load("Leader_board.png")
-leader_button = pygame.transform.scale(leader_button, (500, 400)) # size of button 
-leader_button_loc = leader_button.get_rect(center = (WIDTH // 2, 700)) # loc of button
+leader_button = pygame.image.load("Graphics/Game_assets/Leader_board.png")
+leader_button = pygame.transform.scale(leader_button, (500, 400))  # size of button
+leader_button_loc = leader_button.get_rect(center=(WIDTH // 2, 700))  # loc of button
 
-# leader label
-leader_font = pygame.font.Font("font.ttf", 50)
-leaderlabel= leader_font.render("Leaderboard", True, (255,255,255))
-leader_board_loc = leaderlabel.get_rect(center = (WIDTH//2, 700))
+leader_font = pygame.font.Font("Fonts/font.ttf", 50)
+leaderlabel = leader_font.render("Leaderboard", True, (255, 255, 255))
+leader_board_loc = leaderlabel.get_rect(center=(WIDTH // 2, 700))
 
-# leader label in the leaderboard screen
-leader_font_options = pygame.font.Font("font.ttf", 50)
-leaderlabel_options = leader_font_options.render("Leaderboard", True, (255,255,255))
-leader_board_options_loc = leaderlabel.get_rect(center = (WIDTH//2, HEIGHT // 8))
+leader_font_options = pygame.font.Font("Fonts/font.ttf", 50)
+leaderlabel_options = leader_font_options.render("Leaderboard", True, (255, 255, 255))
+leader_board_options_loc = leaderlabel.get_rect(center=(WIDTH // 2, HEIGHT // 8))
 
-#Play Again Button 
-play_again_button = pygame.image.load("")  # loading play again button asset (Need to add an image)
-play_again_button_image = pygame.transform.scale(play_again_button, (250, 75))  # size of play button
-play_again_rect = play_again_button_image.get_rect(center =(400,300))  # location of play button
-#Main Menu Button 
-main_menu_button = pygame.image.load("")  # loading play again button asset (Need to add an image)
-main_menu_button_image = pygame.transform.scale(main_menu_button, (250, 75))  # size of play button
-main_menu_rect = main_menu_button_image.get_rect(center =(400,400))  # location of play button
+main_menu_button = pygame.image.load("Graphics/Game_assets/return_main_menu.png")
+main_menu_button_image = pygame.transform.scale(main_menu_button, (400, 150))  # size of play button
+main_menu_rect = main_menu_button_image.get_rect(center=(400, 250))  # location of play button
 
 skin_font = pygame.font.Font("Fonts/font.ttf", 50)  # volume label font
 skin_text = skin_font.render("Skins", True, (255, 255, 255))  # actual text
 skin_loc = skin_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # location of text
 
-# pause menu
-pause_button = pygame.image.load("Options_button_pixleart.jpeg")#loading options button settings
-pause_button = pygame.transform.scale(pause_button, (70, 70))#size of button
-pause_button_rect = options_button.get_rect(center=(750,100))  # Set location of options button
+pause_button = pygame.image.load("Graphics/Home_screen/Options_button.jpeg")  # loading options button settings
+pause_button = pygame.transform.scale(pause_button, (70, 70))  # size of button
+pause_button_rect = options_button.get_rect(center=(750, 100))  # Set location of options button
 
-restart_button = pygame.image.load("Restart_button.png")
-restart_button = pygame.transform.scale(restart_button, 300,100)
-restart_button_loc = restart_button.get_rect(center = (WIDTH/2,700))
+restart_button = pygame.image.load("Graphics/Home_screen/Restart_button.png")
+restart_button = pygame.transform.scale(restart_button, (300, 100))
+restart_button_loc = restart_button.get_rect(center=(WIDTH / 2, 700))
 
-# double xp
-double_button = pygame.image.load("double_xp.png")
-double_button = pygame.transform.scale(double_button, (100,100))
-double_button_loc=double_button.get_rect(center = (WIDTH // 2, 600))
+double_button = pygame.image.load("Graphics/Game_assets/double_xp.png")
+double_button = pygame.transform.scale(double_button, (100, 100))
+double_button_loc = double_button.get_rect(center=(WIDTH // 2, 600))
+
+coin_img = pygame.image.load("Graphics/Game_assets/coin_img.png")
+coin_img_trans = pygame.transform.scale(coin_img, (50, 50))
 # ---------------------------
 # Loading Game Assets
 frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
@@ -604,14 +625,14 @@ christmas_skin_loc = christmas_skin.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
 OG_skin = pygame.image.load("Graphics/Game_assets/Frog_char.png")
 OG_skin = pygame.transform.scale(OG_skin, (150, 150))
-OG_skin_loc = OG_skin.get_rect(center=(150, HEIGHT//2))
+OG_skin_loc = OG_skin.get_rect(center=(150, HEIGHT // 2))
 
 miles_skin = pygame.image.load("Graphics/Game_assets/miles_morales_frog.png")
 miles_skin = pygame.transform.scale(miles_skin, (150, 150))
 miles_skin_in_game = pygame.transform.scale(miles_skin, (box_size, box_size))
-miles_skin_loc = OG_skin.get_rect(center=(WIDTH-150, HEIGHT//2))
+miles_skin_loc = OG_skin.get_rect(center=(WIDTH - 150, HEIGHT // 2))
 # ---------------------------------------
-# load music 
+# load music
 pygame.mixer.init()
 sound = pygame.mixer.Sound("Sounds/339124__zagi2__gaming-arcade-loop.wav")
 sound.play(-1)
@@ -620,12 +641,18 @@ current_frog = "og_skin"  # initial skin
 current_screen = "main_menu"
 
 # ---------------------------
+
+with open("high_score.txt") as score_file:
+    data_for_save = json.load(score_file)
+
 # Game Loop
 running = True
 while running:
     # EVENT HANDLING
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            with open("high_score.txt", "w") as score_file:
+                json.dump(data_for_save, score_file)
             running = False
         elif event.type == pygame.KEYDOWN:
             # HANDLING THE FROG MOVEMENTS
@@ -636,75 +663,121 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_location = pygame.mouse.get_pos()
             if current_screen == "main_menu":
-                if button_rect.collidepoint(pygame.mouse.get_pos()):
+                if button_rect.collidepoint(mouse_location):
                     current_screen = "game_screen"
-                elif options_button_rect.collidepoint(pygame.mouse.get_pos()):
+                elif options_button_rect.collidepoint(mouse_location):
                     current_screen = "options"
-                if shop_button_loc.collidepoint(pygame.mouse.get_pos()):
+                if shop_button_loc.collidepoint(mouse_location):
                     current_screen = "shop_screen"
-                elif exit_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif exit_button_loc.collidepoint(mouse_location):
+                    with open("high_score.txt", "w") as score_file:
+                        json.dump(data_for_save, score_file)
                     running = False
             elif current_screen == "options":
-                if back_button_loc.collidepoint(pygame.mouse.get_pos()):
+                if back_button_loc.collidepoint(mouse_location):
                     current_screen = "main_menu"
-                elif arrow_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif arrow_button_loc.collidepoint(mouse_location):
                     movement = "arrows"
-                elif wasd_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif wasd_button_loc.collidepoint(mouse_location):
                     movement = "WASD"
-                elif on_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif on_button_loc.collidepoint(mouse_location):
                     volume_on = True
                     pygame.mixer.unpause()
-                elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif off_button_loc.collidepoint(mouse_location):
                     volume_on = False
                     pygame.mixer.pause()
-                elif leader_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif leader_button_loc.collidepoint(mouse_location):
                     current_screen = "leaderboard"
             elif current_screen == "shop_screen":
-                if back_button_loc.collidepoint(pygame.mouse.get_pos()):
+                if back_button_loc.collidepoint(mouse_location):
                     current_screen = "main_menu"
-                elif OG_skin_loc.collidepoint(pygame.mouse.get_pos()):
-                     current_frog = "Og_skin"
-                 elif miles_skin_loc.collidepoint(pygame.mouse.get_pos()):
-                     current_frog = "miles_skin"
-                 elif christmas_skin_loc.collidepoint(pygame.mouse.get_pos()):
-                     current_frog = "christmas_skin"
-                  elif current_screen == "game":
-                if pause_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    current_screen = "pause"
+                elif OG_skin_loc.collidepoint(mouse_location):
+                    current_frog = "og_skin"
+                elif miles_skin_loc.collidepoint(mouse_location) and data_for_save["coins"] > 25:
+                    current_frog = "miles_skin"
+                    if not data_for_save["miles"]:
+                        data_for_save["coins"] -= 25
+                    data_for_save["miles"] = True
+                elif christmas_skin_loc.collidepoint(mouse_location) and data_for_save["coins"] > 10:
+                    current_frog = "christmas_skin"
+                    if not data_for_save["christmas"]:
+                        data_for_save["coins"] -= 10
+                    data_for_save["christmas"] = True
             elif current_screen == "pause":
-                if back_button_loc.collidepoint(pygame.mouse.get_pos()):
-                    current_screen = "game"
-                elif on_button_loc.collidepoint(pygame.mouse.get_pos()):
+                if back_button_loc.collidepoint(mouse_location):
+                    current_screen = "game_screen"
+                elif on_button_loc.collidepoint(mouse_location):
                     volume_on = True
                     pygame.mixer.unpause()
-                elif arrow_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif arrow_button_loc.collidepoint(mouse_location):
                     movement = "arrows"
-                elif wasd_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif wasd_button_loc.collidepoint(mouse_location):
                     movement = "WASD"
-                elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif off_button_loc.collidepoint(mouse_location):
                     volume_on = False
                     pygame.mixer.pause()
-                elif restart_button_loc.collidepoint(pygame.mouse.get_pos()):
+                elif restart_button_loc.collidepoint(mouse_location):
                     current_screen = "main_menu"
-            
+                    starting_score = 0
+                    live = 3
+                    timer = 90
+                    frog_starting_x = WIDTH // 2 - (frog_x_size // 2)
+                    frog_starting_y = HEIGHT - 100
+
+                    updated_flies = []
+                    for fly in flies:
+                        fly_width, fly_height, lifespan, permanent = fly
+                        if permanent:
+                            updated_flies.append((fly_width, fly_height, lifespan, False))
+                        else:
+                            updated_flies.append(fly)
+
+                    flies = updated_flies
+            elif current_screen == "game_screen":
+                if pause_button_rect.collidepoint(mouse_location):
+                    current_screen = "pause"
+            elif current_screen == "game_over":
+                if main_menu_rect.collidepoint(mouse_location):
+                    current_screen = "main_menu"
+                    starting_score = 0
+                    live = 3
+                    timer = 90
+                    frog_starting_x = WIDTH // 2 - (frog_x_size // 2)
+                    frog_starting_y = HEIGHT - 100
+
+                    updated_flies = []
+                    for fly in flies:
+                        fly_width, fly_height, lifespan, permanent = fly
+                        if permanent:
+                            updated_flies.append((fly_width, fly_height, lifespan, False))
+                        else:
+                            updated_flies.append(fly)
+
+                    flies = updated_flies
 
     screen.fill((0, 0, 0))
-
+    print(data_for_save["coins"])
 
     # SCREENS
     if current_screen == "main_menu":
         main_menu()
     elif current_screen == "game_screen":
         game_screen()
+        coins_received = True
     elif current_screen == "options":
         options_menu()
     elif current_screen == "shop_screen":
-        shop_screen()
+        shop_screen(data_for_save["coins"])
     elif current_screen == "leaderboard":
         leaderboard()
     elif current_screen == "pause":
         pause()
-      
+    elif current_screen == "game_over":
+        game_over()
+        if coins_received:
+            data_for_save["coins"] += starting_score // 10
+            coins_received = False
+
     pygame.display.flip()
     clock.tick(fps)
     # ------------------------------------
