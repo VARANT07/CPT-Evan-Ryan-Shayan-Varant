@@ -139,6 +139,8 @@ def pause():
     screen.blit(control_text, control_loc)
     screen.blit(arrow_button, arrow_button_loc)
     screen.blit(wasd_button, wasd_button_loc)
+    screen.blit(restart_button,restart_button_loc)
+
 
 
 # ----------------- Movement Functions --------------------
@@ -538,6 +540,9 @@ pause_button = pygame.image.load("Options_button_pixleart.jpeg")#loading options
 pause_button = pygame.transform.scale(pause_button, (70, 70))#size of button
 pause_button_rect = options_button.get_rect(center=(750,100))  # Set location of options button
 
+restart_button = pygame.image.load("Restart_button.png")
+restart_button = pygame.transform.scale(restart_button, 300,100)
+restart_button_loc = restart_button.get_rect(center = (WIDTH/2,700))
 # ---------------------------
 # Loading Game Assets
 frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
@@ -672,6 +677,9 @@ while running:
                 elif off_button_loc.collidepoint(pygame.mouse.get_pos()):
                     volume_on = False
                     pygame.mixer.pause()
+                elif restart_button_loc.collidepoint(pygame.mouse.get_pos()):
+                    current_screen = "main_menu"
+            
 
     screen.fill((0, 0, 0))
 
