@@ -434,7 +434,10 @@ def star_score():  # Adding Score if Star is hit
 
         star_x_pos, star_y_pos = star_pos
         if frog_x_position - 25 <= star_x_pos <= frog_x_position + 25 and frog_y_position - 25 <= star_y_pos <= frog_y_position + 25:
-            starting_score += 10
+            if double_points:
+                starting_score += 20
+            else:
+                starting_score += 10
             star_exists = False
 
 # --------------------------------------------------
