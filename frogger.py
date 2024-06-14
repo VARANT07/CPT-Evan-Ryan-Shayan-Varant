@@ -16,40 +16,43 @@ def main_menu():
 
 
 def game_screen():
-    global car_spawn_timer, cars, fps_counter, timer, fly_counter, frames_per_fly_spawn, flies, death_timer, dead, \
-        live, current_screen, frog_starting_x, frog_starting_y, death_pos, frame_counter, log_spawn_timer, logs
+    global car_spawn_timer, cars, fps_counter, timer, fly_counter, flies, death_timer, dead, \
+        live, current_screen, frog_x_position, frog_y_position, frame_counter, log_spawn_timer, logs
     screen.fill((0, 0, 255))
+    # Count frames
     frame_counter += 1
 
+    # Drawing the ground
     screen.blit(road_img_trans, (0, (HEIGHT - 375)))
-
     screen.blit(ground_img_trans, (0, HEIGHT / 2))
     screen.blit(ground_img_trans, (0, HEIGHT - 100))
+
+    # Pause button
     screen.blit(pause_button, pause_button_rect)
 
     # CAR SPAWNING
     if car_spawn_timer > 0:
-        car_spawn_timer -= 0.5
+        car_spawn_timer -= 0.5  # ensuring there's a cooldown before another car spawns
 
     if car_spawn_timer <= 0:
-        car_spawn = random.randint(1, 40)
+        car_spawn = random.randint(1, 40)  # 1/40 chance a car spawns every frame
         if car_spawn == 1:
             cars.append(generate_car())
             car_spawn_timer = car_spawn_delay
 
-    cars = update_car(cars)
+    cars = update_car(cars)  # Set original cars list equal to the new updated one
 
     draw_car(cars)
 
     # LOG SPAWNING
     if log_spawn_timer > 0:
-        log_spawn_timer -= 0.5
+        log_spawn_timer -= 0.5  # Ensure there's a delay before another log spawns
 
     if log_spawn_timer <= 0:
-        log_spawn = random.randint(1, 50)
+        log_spawn = random.randint(1, 50)  # 1/50 chance that a log spawns each frame
         if log_spawn == 1:
             logs.append(generate_log())
-            log_spawn_timer = log_spawn_reset
+            log_spawn_timer = log_spawn_reset  # Reset timer
 
     logs = update_logs(logs)
 
@@ -79,20 +82,21 @@ def game_screen():
     water_collision(logs)
 
     lives()
+    star_score()
 
     if dead:
         screen.blit(death_animation_img_trans, death_pos)
         death_timer -= 1
         if death_timer < 0:
             dead = False
-            frog_starting_x = WIDTH // 2 - (frog_x_size // 2)
-            frog_starting_y = HEIGHT - 100
+            frog_x_position = WIDTH // 2 - (frog_x_size // 2)
+            frog_y_position = HEIGHT - 100
             live -= 1
             death_timer = 120
             if live == 0:
                 current_screen = "game_over"
     else:
-        draw_frog(frog_starting_x, frog_starting_y)
+        draw_frog(frog_x_position, frog_y_position)
 
 
 def options_menu():
@@ -113,9 +117,11 @@ def leaderboard():
     screen.fill(BG)
     screen.blit(back_button, back_button_loc)
     screen.blit(leaderlabel_options, leader_board_options_loc)
+    screen.blit(player_icon_trans, (150, 200))
+    screen.blit(high_score, (50, 260))
 
 
-def shop_screen(coins: int):
+def shop_screen():
     screen.fill(BG)
     my_font = pygame.font.SysFont("monospace", 50)
     coin_score_text = my_font.render(f" :{data_for_save['coins']}", 1, (255, 255, 0))
@@ -151,10 +157,12 @@ def game_over():
     my_font = pygame.font.SysFont("monospace", 40)
     score_text = my_font.render(f"{starting_score} Score  =  {starting_score//10} coins", 1, (255, 255, 255))
     screen.blit(score_text, (175, 500))
+    if starting_score > data_for_save["high_score"]:
+        data_for_save["high_score"] = starting_score
 
 
 def pause():
-    screen.fill((BG))
+    screen.fill(BG)
     screen.blit(volume_text, volume_loc)
     screen.blit(back_button, back_button_loc)
     screen.blit(label_text, label_rect)
@@ -170,27 +178,27 @@ def pause():
 
 
 def wasd_movement(movement_event: pygame.event.Event):
-    global frog_starting_x, frog_starting_y
+    global frog_x_position, frog_y_position
     if movement_event.key == ord("w"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'up')
     if movement_event.key == ord("s"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'down')
     if movement_event.key == ord("a"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'left')
     if movement_event.key == ord("d"):
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'right')
 
 
 def arrow_movement(movement_event: pygame.event.Event):
-    global frog_starting_x, frog_starting_y
+    global frog_x_position, frog_y_position
     if movement_event.key == pygame.K_UP:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'up')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'up')
     if movement_event.key == pygame.K_DOWN:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'down')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'down')
     if movement_event.key == pygame.K_LEFT:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'left')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'left')
     if movement_event.key == pygame.K_RIGHT:
-        frog_starting_x, frog_starting_y = frog_movement(frog_starting_x, frog_starting_y, 'right')
+        frog_x_position, frog_y_position = frog_movement(frog_x_position, frog_y_position, 'right')
 
 
 # -------------------- Car/Frog/Log Generation and Display ---------
@@ -214,7 +222,7 @@ def frog_movement(frog_x: int, frog_y: int, direction: str) -> tuple:
         frog_x -= box_size
     if direction == 'right' and frog_x < WIDTH - 100:
         frog_x += box_size
-    return frog_x, frog_y
+    return frog_x, frog_y  # Returns the frogs position
 
 
 def generate_car() -> tuple:  # Generates a random car
@@ -264,35 +272,35 @@ def update_car(car: list) -> list:  # Moves the cars and gets rid of them if the
 
 
 def car_collision(updated_cars: list):
-    global frog_starting_x, frog_starting_y, dead, death_pos
+    global frog_x_position, frog_y_position, dead, death_pos
 
     if not dead:
         for i in updated_cars:
             x_pos, y_pos, speed, car_direction = i
-            if frog_starting_y == y_pos and x_pos - 50 < frog_starting_x < x_pos + 50:
-                death_pos = frog_starting_x, frog_starting_y
+            if frog_y_position == y_pos and x_pos - 50 < frog_x_position < x_pos + 50:  # If the car hits the frog
+                death_pos = frog_x_position, frog_y_position  # Save the position frog dies to spawn a skull
                 dead = True
 
 
 def generate_log() -> tuple:
     log_y_pos = random.choice(log_pos)
-    log_pos.remove(
-        log_y_pos)  # Removing it and then adding it back at the end of the loop will fix the issue of multiple logs spawning at once in the same pos
+    log_pos.remove(log_y_pos)  # Removing it and then adding it back at the end of the loop will fix the issue of multiple logs spawning at once in the same pos
     size = random.choice(log_sizes)
-    random.shuffle(log_sizes)  # Fixes a weird glitch where it wont spawn on certain locations
-    if log_y_pos % 100 == 0:
-        direction = "right"
+    random.shuffle(log_sizes)  # Fixes a weird glitch where it won't spawn on certain locations
+    if log_y_pos % 100 == 0:  # If the y position is a multiple of 100
+        direction = "right"  # Coming in from the right
         log_x_pos = 0
     else:
-        direction = "left"
+        direction = "left"  # Coming in from left
         log_x_pos = WIDTH
-    log_pos.append(log_y_pos)
+    log_pos.append(log_y_pos)  # Add the position that was initially removed
     return log_x_pos, log_y_pos, direction, size
 
 
 def draw_log(logs_list: list):
     for log in logs_list:
-        log_x_pos, log_y_pos, direction, size = log
+        log_x_pos, log_y_pos, _, size = log
+        # Depending on the log size they will spawn a different image
         if size == 2:
             screen.blit(log_1x2_img_trans, (log_x_pos, log_y_pos))
         elif size == 3:
@@ -309,29 +317,29 @@ def update_logs(logs_list: list):
             log_x_pos += 1.5  # Make it a bit faster so the game doesn't look robotic
         elif direction == "left":
             log_x_pos -= 1
-        if 0 <= log_x_pos <= WIDTH:
+        if 0 - box_size <= log_x_pos <= WIDTH:  # Ensures logs stay on the map
             updated_logs.append((log_x_pos, log_y_pos, direction, size))
 
     return updated_logs
 
 
 def water_collision(updated_logs: list):
-    global frog_starting_x, frog_starting_y, dead, death_pos
-    if not dead and 150 <= frog_starting_y <= 350:
+    global frog_x_position, frog_y_position, dead, death_pos
+    if not dead and 150 <= frog_y_position <= 350:  # Ensures frog is both alive and on the water
         on_log = False
         for log in updated_logs:
             x_pos, y_pos, direction, size = log
-            if frog_starting_y == y_pos and x_pos < frog_starting_x < x_pos + (50 * size):
+            if frog_y_position == y_pos and x_pos < frog_x_position < x_pos + (box_size * size): # Logs are different sizes so multiplying by size will increase the x pos it can cover
                 on_log = True
                 if direction == "right":
-                    frog_starting_x += 1.5
+                    frog_x_position += 1.5  # Ensures frog moves with the log
                 elif direction == "left":
-                    frog_starting_x -= 1
+                    frog_x_position -= 1
                 break
 
-        if not on_log:
+        if not on_log:  # If frog touches the water
             dead = True
-            death_pos = frog_starting_x, frog_starting_y
+            death_pos = frog_x_position, frog_y_position
 
 
 # -------------------- Fly generation and display -------------------- --
@@ -357,19 +365,24 @@ def erase_fly(position):
 
 
 def fly_existing(flies_list: list):
-    global starting_score
+    global starting_score, frog_y_position, frog_x_position
     update_flies = []
 
     for fly_char in flies_list:
         fly_width, fly_height, lifespan, permanent = fly_char
 
-        if not permanent and frog_starting_x - 25 <= fly_width <= frog_starting_x + 25 and fly_height == frog_starting_y:
+        if not permanent and frog_x_position - 25 <= fly_width <= frog_x_position + 25 and fly_height == frog_y_position:
             permanent = True
             fly_x_loc.remove(fly_width)
             if len(fly_x_loc) == 0:
                 fly_x_loc.append(1000000)  # Spawns in an area the use cannot see
             lifespan = -1
-            starting_score += 10
+            if double_points:
+                starting_score += 40
+            else:
+                starting_score += 20
+            frog_x_position = WIDTH // 2 - (frog_x_size // 2)  # pygame starts from top left so to center it I did this
+            frog_y_position = HEIGHT - 100
 
         if not permanent:
             lifespan -= 1
@@ -405,11 +418,24 @@ def lives():  # LIVE DISPLAY
     screen.blit(score_text, (WIDTH - 500, 10))
 
 
-def star_score():  # Adding Score if Star is hit
-    global star, starting_score
-    if frog_char_img == "hit":
-        starting_score += 10  # Need to add proper variable
+def star_generate():
+    star_x_pos = random.randint(box_size, WIDTH - box_size)
+    star_y_pos = random.randint(400, 650)
+    return star_x_pos, star_y_pos
 
+
+def star_score():  # Adding Score if Star is hit
+    global starting_score, star_exists, star_pos
+    if random.randint(1, 400) == 1 and not star_exists:
+        star_pos = star_generate()
+        star_exists = True
+    if star_exists:
+        screen.blit(star_char_img_trans, star_pos)
+
+        star_x_pos, star_y_pos = star_pos
+        if frog_x_position - 25 <= star_x_pos <= frog_x_position + 25 and frog_y_position - 25 <= star_y_pos <= frog_y_position + 25:
+            starting_score += 10
+            star_exists = False
 
 # --------------------------------------------------
 # Game Set up
@@ -437,15 +463,15 @@ frog_x_size = 50
 frog_y_size = 50
 box_size = 50
 
-frog_starting_x = WIDTH // 2 - (frog_x_size // 2)  # pygame starts from top left so to center it I did this
-frog_starting_y = HEIGHT - 100
+frog_x_position = WIDTH // 2 - (frog_x_size // 2)  # pygame starts from top left so to center it I did this
+frog_y_position = HEIGHT - 100
 
 car_pos = [650, 600, 550, 500, 450]  # Y coordinates the cars can spawn in
 cars = []
 car_spawn_timer = 0
 car_spawn_delay = 15  # Ensures that cars have a cooldown before spawning
 
-log_pos = [350, 350, 300, 250, 200, 150]
+log_pos = [350, 350, 300, 300, 250, 200, 150]
 logs = []
 log_spawn_timer = 0
 log_spawn_reset = 10
@@ -467,11 +493,16 @@ starting_score = 0
 
 BG = (20, 30, 50)
 
-movement = "WASD"
-
 coins_received = False
+double_points = False
+star_claimed = False
+star_exists = False
 
-data_for_save = {"high_score": 0, "coins": 999, "miles": False, "christmas": False}
+data_for_save = {"high_score": 0, "coins": 999, "miles": False, "christmas": False, "controls": "WASD", "music_on": True}
+
+with open("high_score.txt") as score_file:
+    data_for_save = json.load(score_file)
+
 # ---------------------------
 # Fonts and Writing
 my_text_font = pygame.font.Font("Fonts/font.ttf", 50)  # made a font
@@ -490,6 +521,17 @@ volume_loc = volume_text.get_rect(center=(WIDTH // 2, HEIGHT // 4))  # location 
 
 menu_text = my_text_font.render("FROGGER", True, (255, 255, 255))
 text_rect = menu_text.get_rect(center=(WIDTH // 2, HEIGHT // 8))  # location of main menu
+
+leader_font = pygame.font.Font("Fonts/font.ttf", 50)
+leaderlabel = leader_font.render(" Leaderboard", True, (255, 255, 255))
+leader_board_loc = leaderlabel.get_rect(center=(WIDTH // 2, 700))
+
+leader_font_options = pygame.font.Font("Fonts/font.ttf", 50)
+leaderlabel_options = leader_font_options.render("Leaderboard", True, (255, 255, 255))
+leader_board_options_loc = leaderlabel.get_rect(center=(WIDTH // 2, HEIGHT // 8))
+
+high_score_font = pygame.font.Font("Fonts/font.ttf", 40)  # volume label font
+high_score = high_score_font.render(f"ME   --------- {data_for_save['high_score']}", 1, (255, 255, 0))
 
 # --------------------------------
 # Buttons
@@ -541,14 +583,6 @@ leader_button = pygame.image.load("Graphics/Game_assets/Leader_board.png")
 leader_button = pygame.transform.scale(leader_button, (500, 400))  # size of button
 leader_button_loc = leader_button.get_rect(center=(WIDTH // 2, 700))  # loc of button
 
-leader_font = pygame.font.Font("Fonts/font.ttf", 50)
-leaderlabel = leader_font.render("Leaderboard", True, (255, 255, 255))
-leader_board_loc = leaderlabel.get_rect(center=(WIDTH // 2, 700))
-
-leader_font_options = pygame.font.Font("Fonts/font.ttf", 50)
-leaderlabel_options = leader_font_options.render("Leaderboard", True, (255, 255, 255))
-leader_board_options_loc = leaderlabel.get_rect(center=(WIDTH // 2, HEIGHT // 8))
-
 main_menu_button = pygame.image.load("Graphics/Game_assets/return_main_menu.png")
 main_menu_button_image = pygame.transform.scale(main_menu_button, (400, 150))  # size of play button
 main_menu_rect = main_menu_button_image.get_rect(center=(400, 250))  # location of play button
@@ -571,6 +605,9 @@ double_button_loc = double_button.get_rect(center=(WIDTH // 2, 600))
 
 coin_img = pygame.image.load("Graphics/Game_assets/coin_img.png")
 coin_img_trans = pygame.transform.scale(coin_img, (50, 50))
+
+player_icon_img = pygame.image.load("Graphics/Home_screen/player_icon.png")
+player_icon_trans = pygame.transform.scale(player_icon_img, (100, 135))
 # ---------------------------
 # Loading Game Assets
 frog_char_img = pygame.image.load('Graphics/Game_assets/Frog_char.png')
@@ -635,15 +672,13 @@ miles_skin_loc = OG_skin.get_rect(center=(WIDTH - 150, HEIGHT // 2))
 # load music
 pygame.mixer.init()
 sound = pygame.mixer.Sound("Sounds/339124__zagi2__gaming-arcade-loop.wav")
-sound.play(-1)
+if data_for_save["music_on"]:
+    sound.play(-1)
 current_frog = "og_skin"  # initial skin
 
 current_screen = "main_menu"
 
 # ---------------------------
-
-with open("high_score.txt") as score_file:
-    data_for_save = json.load(score_file)
 
 # Game Loop
 running = True
@@ -656,9 +691,9 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             # HANDLING THE FROG MOVEMENTS
-            if movement == "WASD":
+            if data_for_save["controls"] == "WASD":
                 wasd_movement(event)
-            elif movement == "arrows":
+            elif data_for_save["controls"] == "arrows":
                 arrow_movement(event)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_location = pygame.mouse.get_pos()
@@ -677,14 +712,14 @@ while running:
                 if back_button_loc.collidepoint(mouse_location):
                     current_screen = "main_menu"
                 elif arrow_button_loc.collidepoint(mouse_location):
-                    movement = "arrows"
+                    data_for_save["controls"] = "arrows"
                 elif wasd_button_loc.collidepoint(mouse_location):
-                    movement = "WASD"
+                    data_for_save["controls"] = "WASD"
                 elif on_button_loc.collidepoint(mouse_location):
-                    volume_on = True
-                    pygame.mixer.unpause()
+                    data_for_save["music_on"] = True
+                    sound.play(-1)
                 elif off_button_loc.collidepoint(mouse_location):
-                    volume_on = False
+                    data_for_save["music_on"] = False
                     pygame.mixer.pause()
                 elif leader_button_loc.collidepoint(mouse_location):
                     current_screen = "leaderboard"
@@ -703,6 +738,9 @@ while running:
                     if not data_for_save["christmas"]:
                         data_for_save["coins"] -= 10
                     data_for_save["christmas"] = True
+                elif double_button_loc.collidepoint(mouse_location):
+                    data_for_save["coins"] -= 5
+                    double_points = True
             elif current_screen == "pause":
                 if back_button_loc.collidepoint(mouse_location):
                     current_screen = "game_screen"
@@ -710,9 +748,9 @@ while running:
                     volume_on = True
                     pygame.mixer.unpause()
                 elif arrow_button_loc.collidepoint(mouse_location):
-                    movement = "arrows"
+                    data_for_save["controls"] = "arrows"
                 elif wasd_button_loc.collidepoint(mouse_location):
-                    movement = "WASD"
+                    data_for_save["controls"] = "WASD"
                 elif off_button_loc.collidepoint(mouse_location):
                     volume_on = False
                     pygame.mixer.pause()
@@ -721,8 +759,8 @@ while running:
                     starting_score = 0
                     live = 3
                     timer = 90
-                    frog_starting_x = WIDTH // 2 - (frog_x_size // 2)
-                    frog_starting_y = HEIGHT - 100
+                    frog_x_position = WIDTH // 2 - (frog_x_size // 2)
+                    frog_y_position = HEIGHT - 100
 
                     updated_flies = []
                     for fly in flies:
@@ -742,8 +780,8 @@ while running:
                     starting_score = 0
                     live = 3
                     timer = 90
-                    frog_starting_x = WIDTH // 2 - (frog_x_size // 2)
-                    frog_starting_y = HEIGHT - 100
+                    frog_x_position = WIDTH // 2 - (frog_x_size // 2)
+                    frog_y_position = HEIGHT - 100
 
                     updated_flies = []
                     for fly in flies:
@@ -754,9 +792,10 @@ while running:
                             updated_flies.append(fly)
 
                     flies = updated_flies
-
-    screen.fill((0, 0, 0))
-    print(data_for_save["coins"])
+                    double_points = False
+            elif current_screen == "leaderboard":
+                if back_button_loc.collidepoint(mouse_location):
+                    current_screen = "options"
 
     # SCREENS
     if current_screen == "main_menu":
@@ -767,7 +806,7 @@ while running:
     elif current_screen == "options":
         options_menu()
     elif current_screen == "shop_screen":
-        shop_screen(data_for_save["coins"])
+        shop_screen()
     elif current_screen == "leaderboard":
         leaderboard()
     elif current_screen == "pause":
