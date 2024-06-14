@@ -1,0 +1,1 @@
+{"high_score": 0, "coins": 999, "miles": false, "christmas": false, "controls": "WASD", "music_on": true}
