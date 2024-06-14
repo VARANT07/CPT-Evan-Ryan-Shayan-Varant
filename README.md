@@ -3,8 +3,8 @@ Welcome to our Frogger game! This classic arcade game involves guiding a frog ac
 
 HOW TO PLAY
 The objective of the game is to gain as many points as possible within the 60 second time limit, avoid cars, the water, and collect as many points as you can. Make sure to catch the flies and stars quickly since they appear and disappear very quickly!
-Flies are worth 10 points
-Stars are worth 5 points
+Flies are worth 20 points
+Stars are worth 10 points
 
 GAMEPLAY STEPS:
 Start the Game: Run the script to open the game window.
