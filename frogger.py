@@ -98,7 +98,7 @@ def game_screen():
     else:
         draw_frog(frog_x_position, frog_y_position)
 
-
+# options screen functio
 def options_menu():
     screen.fill(BG)  # colour of screen
     screen.blit(volume_text, volume_loc)
@@ -112,7 +112,7 @@ def options_menu():
     screen.blit(leader_button, leader_button_loc)
     screen.blit(leaderlabel, leader_board_loc)
 
-
+# leader board function
 def leaderboard():
     screen.fill(BG)
     screen.blit(back_button, back_button_loc)
@@ -120,7 +120,7 @@ def leaderboard():
     screen.blit(player_icon_trans, (150, 200))
     screen.blit(high_score, (50, 260))
 
-
+# shop screen function
 def shop_screen():
     screen.fill(BG)
     my_font = pygame.font.SysFont("monospace", 50)
@@ -160,7 +160,7 @@ def game_over():
     if starting_score > data_for_save["high_score"]:
         data_for_save["high_score"] = starting_score
 
-
+# pause menu in game screen
 def pause():
     screen.fill(BG)
     screen.blit(volume_text, volume_loc)
