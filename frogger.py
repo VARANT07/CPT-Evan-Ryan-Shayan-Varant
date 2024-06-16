@@ -275,8 +275,8 @@ def car_collision(updated_cars: list):
     global frog_x_position, frog_y_position, dead, death_pos
 
     if not dead:
-        for i in updated_cars:
-            x_pos, y_pos, speed, car_direction = i
+        for cars in updated_cars:
+            x_pos, y_pos, speed, _ = cars
             if frog_y_position == y_pos and x_pos - 50 < frog_x_position < x_pos + 50:  # If the car hits the frog
                 death_pos = frog_x_position, frog_y_position  # Save the position frog dies to spawn a skull
                 dead = True
